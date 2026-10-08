@@ -1,0 +1,227 @@
+
+services:
+
+  # ==========================================
+  # 1. POSTGRESQL DATABASE
+  # ==========================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: crm-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Missing POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:?Missing POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Missing POSTGRES_PASSWORD}
+
+    ports:
+      - "127.0.0.1:5433:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # 2. PGADMIN
+  # ==========================================
+  pgadmin:
+    image: dpage/pgadmin4:9
+    container_name: crm-pgadmin
+    restart: unless-stopped
+
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:?Missing PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:?Missing PGADMIN_PASSWORD}
+
+    ports:
+      - "127.0.0.1:5050:80"
+
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ==========================================
+  # 3. NODE.JS CRM WEBSITE
+  # ==========================================
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+
+    container_name: crm-web
+    restart: unless-stopped
+
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_NAME: ${POSTGRES_DB:?Missing POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER:?Missing POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Missing POSTGRES_PASSWORD}
+
+    expose:
+      - "3000"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ==========================================
+  # 4. NGINX REVERSE PROXY
+  # ==========================================
+  nginx:
+    image: nginx:stable-alpine
+    container_name: crm-nginx
+    restart: unless-stopped
+
+    ports:
+      - "127.0.0.1:8080:80"
+
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+    depends_on:
+      - web
+
+  # ==========================================
+  # 5. BLACKBOX EXPORTER
+  # ==========================================
+  blackbox:
+    image: prom/blackbox-exporter:v0.27.0
+    container_name: crm-blackbox
+    restart: unless-stopped
+
+    command:
+      - --config.file=/etc/blackbox/blackbox.yml
+
+    volumes:
+      - ./monitoring/blackbox/blackbox.yml:/etc/blackbox/blackbox.yml:ro
+
+    expose:
+      - "9115"
+
+    depends_on:
+      - nginx
+
+  # ==========================================
+  # 6. CADVISOR
+  # ==========================================
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.52.1
+    container_name: crm-cadvisor
+    restart: unless-stopped
+
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+
+    expose:
+      - "8080"
+
+  # ==========================================
+  # 7. PROMETHEUS
+  # ==========================================
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    container_name: crm-prometheus
+    restart: unless-stopped
+
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=15d
+      - --web.enable-lifecycle
+
+    ports:
+      - "127.0.0.1:9090:9090"
+
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+
+    depends_on:
+      - blackbox
+      - cadvisor
+
+  # ==========================================
+  # 8. LOKI
+  # ==========================================
+  loki:
+    image: grafana/loki:3.5.0
+    container_name: crm-loki
+    restart: unless-stopped
+
+    command:
+      - -config.file=/etc/loki/loki.yml
+
+    ports:
+      - "127.0.0.1:3100:3100"
+
+    volumes:
+      - ./monitoring/loki/loki.yml:/etc/loki/loki.yml:ro
+      - loki_data:/loki
+
+  # ==========================================
+  # 9. PROMTAIL
+  # ==========================================
+  promtail:
+    image: grafana/promtail:3.5.0
+    container_name: crm-promtail
+    restart: unless-stopped
+
+    user: "0"
+
+    command:
+      - -config.file=/etc/promtail/promtail.yml
+
+    volumes:
+      - ./monitoring/promtail/promtail.yml:/etc/promtail/promtail.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - promtail_data:/var/lib/promtail
+
+    depends_on:
+      - loki
+
+  # ==========================================
+  # 10. GRAFANA
+  # ==========================================
+  grafana:
+    image: grafana/grafana:12.1.0
+    container_name: crm-grafana
+    restart: unless-stopped
+
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:?Missing GRAFANA_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Missing GRAFANA_ADMIN_PASSWORD}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+
+    ports:
+      - "127.0.0.1:3001:3000"
+
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+    depends_on:
+      - prometheus
+      - loki
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+  prometheus_data:
+  grafana_data:
+  loki_data:
+  promtail_data:
