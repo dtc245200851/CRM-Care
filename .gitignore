@@ -1,0 +1,27 @@
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Node.js
+node_modules/
+web/node_modules/
+npm-debug.log*
+*.log
+
+# Docker Compose backups
+docker-compose.backup.yml
+docker-compose.before-logging.yml
+docker-compose.before-env.yml
+docker-compose.override.disabled.yml
+docker-compose.*.bak
+
+# Editor and OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak

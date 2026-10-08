@@ -1,0 +1,1078 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lịch sử tương tác | CRM Care</title>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <style>
+    /* ===== INTERACTIONS - ESPRESSO & PINK ===== */
+    .interaction-page {
+      --espresso: #3E2723;
+      --pink: #F4C9D6;
+      --ivory: #F5F0E6;
+      --rose: #A76C7C;
+      --sage: #9DB7A0;
+      --coral: #E5A28E;
+      color: var(--espresso);
+    }
+
+    .interaction-page .interaction-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .interaction-page .interaction-top h1 {
+      font-size: clamp(27px, 3vw, 36px);
+      margin: 6px 0 8px;
+      letter-spacing: -.8px;
+    }
+
+    .interaction-page .interaction-top p {
+      color: #927C74;
+      margin: 0;
+    }
+
+    .interaction-page .mini-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--rose);
+    }
+
+    .interaction-page .soft-btn {
+      appearance: none;
+      border: 1px solid #ead8d4;
+      background: #fffdfb;
+      color: var(--espresso);
+      padding: 12px 19px;
+      border-radius: 15px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow:
+        5px 5px 12px #d9cec8,
+        -5px -5px 12px #ffffff,
+        0 2px 0 #e3d2cd;
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+    }
+
+    .interaction-page .soft-btn:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 12px 24px rgba(62,39,35,.17),
+        0 4px 0 rgba(62,39,35,.07);
+    }
+
+    .interaction-page .soft-btn:active {
+      transform: translateY(1px);
+      box-shadow: inset 2px 3px 7px #d9c6bf;
+    }
+
+    .interaction-page .primary-btn {
+      background: var(--espresso);
+      color: white;
+      border-color: var(--espresso);
+      box-shadow:
+        0 9px 20px rgba(62,39,35,.22),
+        inset 0 1px rgba(255,255,255,.12);
+    }
+
+    .interaction-page .primary-btn:active {
+      box-shadow: inset 2px 4px 8px #21130f;
+    }
+
+    .interaction-page .danger-btn {
+      background: #FFF0EF;
+      color: #A74744;
+      border-color: #F5CFCB;
+    }
+
+    .interaction-page .soft-btn:disabled {
+      cursor: wait;
+      opacity: .6;
+      transform: none;
+    }
+
+    .interaction-page .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 15px;
+      margin-bottom: 22px;
+    }
+
+    .interaction-page .stat-box {
+      border-radius: 20px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,.7);
+      box-shadow:
+        7px 7px 18px rgba(62,39,35,.09),
+        -5px -5px 17px rgba(255,255,255,.9);
+      transition: transform .2s ease;
+    }
+
+    .interaction-page .stat-box:hover {
+      transform: translateY(-4px);
+    }
+
+    .interaction-page .stat-box:nth-child(1) { background: #F8E4E9; }
+    .interaction-page .stat-box:nth-child(2) { background: #E7F0E8; }
+    .interaction-page .stat-box:nth-child(3) { background: #FFF0DC; }
+    .interaction-page .stat-box:nth-child(4) { background: #EDE7F6; }
+
+    .interaction-page .stat-box .stat-symbol {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .interaction-page .stat-box strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1.2;
+    }
+
+    .interaction-page .stat-box small {
+      color: #826F69;
+      font-weight: 700;
+    }
+
+    .interaction-page .interaction-panel {
+      background: #fffdf9;
+      border: 1px solid #f0e4da;
+      border-radius: 23px;
+      padding: 24px;
+      box-shadow:
+        9px 12px 30px rgba(62,39,35,.08),
+        -5px -5px 18px rgba(255,255,255,.9);
+    }
+
+    .interaction-page .panel-intro {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .interaction-page .panel-intro h2 {
+      font-size: 20px;
+      margin: 0 0 6px;
+    }
+
+    .interaction-page .panel-intro p {
+      margin: 0;
+      color: #957f77;
+      font-size: 13px;
+    }
+
+    .interaction-page .count-pill {
+      padding: 8px 13px;
+      background: #f9e7ec;
+      color: #8e576b;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .interaction-page .filter-bar {
+      display: grid;
+      grid-template-columns: minmax(200px, 1.5fr) 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .interaction-page .control,
+    .interaction-page .field input,
+    .interaction-page .field select,
+    .interaction-page .field textarea {
+      width: 100%;
+      min-width: 0;
+      padding: 12px 14px;
+      font: inherit;
+      font-size: 13px;
+      color: var(--espresso);
+      border: 1px solid #eadcd5;
+      border-radius: 13px;
+      background: #fffdfb;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .interaction-page .control:focus,
+    .interaction-page .field input:focus,
+    .interaction-page .field select:focus,
+    .interaction-page .field textarea:focus {
+      border-color: #bd7a91;
+      box-shadow: 0 0 0 4px rgba(244,201,214,.38);
+    }
+
+    .interaction-page .timeline {
+      margin: 0;
+      padding: 0 0 0 15px;
+      list-style: none;
+      border-left: 2px solid #f0dadd;
+    }
+
+    .interaction-page .timeline-item {
+      position: relative;
+      margin: 0 0 18px 20px;
+    }
+
+    .interaction-page .timeline-item[hidden] {
+      display: none !important;
+    }
+
+    .interaction-page .timeline-dot {
+      position: absolute;
+      left: -43px;
+      top: 23px;
+      width: 14px;
+      height: 14px;
+      border: 3px solid #fffdf9;
+      border-radius: 50%;
+      background: var(--rose);
+      box-shadow: 0 0 0 2px #f0dadd;
+    }
+
+    .interaction-page .timeline-card {
+      background: linear-gradient(135deg, #fff 0%, #fffaf7 100%);
+      border: 1px solid #efe1db;
+      border-radius: 19px;
+      padding: 18px 19px;
+      box-shadow:
+        5px 7px 18px rgba(62,39,35,.06),
+        inset 0 1px rgba(255,255,255,.9);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .interaction-page .timeline-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 13px 25px rgba(62,39,35,.12);
+    }
+
+    .interaction-page .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .interaction-page .card-title {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .interaction-page .type-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+      flex: 0 0 auto;
+    }
+
+    .interaction-page .type-call { background: #fbe4ec; }
+    .interaction-page .type-email { background: #e5eee4; }
+    .interaction-page .type-meeting { background: #fff0da; }
+    .interaction-page .type-note { background: #ede5f5; }
+
+    .interaction-page .card-title h3 {
+      margin: 0 0 4px;
+      font-size: 15px;
+    }
+
+    .interaction-page .card-title small {
+      color: #9a837a;
+      font-size: 12px;
+    }
+
+    .interaction-page .type-badge {
+      border-radius: 30px;
+      background: #f9edf0;
+      color: #9c6478;
+      padding: 7px 11px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .interaction-page .timeline-content {
+      margin: 15px 0;
+      color: #654f47;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: 13px;
+    }
+
+    .interaction-page .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 13px;
+      border-top: 1px solid #f2e8e3;
+    }
+
+    .interaction-page .date-text {
+      color: #99847a;
+      font-size: 12px;
+    }
+
+    .interaction-page .tiny-btn {
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #ab5958;
+      background: #fff0ed;
+      border: 1px solid #f5d6d0;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 9px rgba(62,39,35,.07);
+      transition: transform .2s;
+    }
+
+    .interaction-page .tiny-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .interaction-page .empty-view {
+      text-align: center;
+      padding: 46px 15px;
+      color: #967e75;
+    }
+
+    .interaction-page .empty-view .empty-heart {
+      font-size: 40px;
+      color: #dca1b2;
+    }
+
+    .interaction-page .empty-view h3 {
+      margin: 10px 0 7px;
+      color: var(--espresso);
+    }
+
+    .interaction-page .empty-view[hidden] {
+      display: none !important;
+    }
+
+    /* Popup có CSS độc lập để tránh xung đột */
+    .interaction-page .interaction-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(35,20,18,.57);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .interaction-page .interaction-overlay[hidden] {
+      display: none !important;
+    }
+
+    .interaction-page .dialog-card {
+      width: min(100%, 530px);
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+      background: #fffaf6;
+      border: 1px solid #efd9d5;
+      border-radius: 25px;
+      padding: 26px;
+      box-sizing: border-box;
+      box-shadow: 0 30px 80px rgba(27,12,10,.35);
+    }
+
+    .interaction-page .dialog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .interaction-page .dialog-header h2 {
+      margin: 5px 0;
+      font-size: 23px;
+    }
+
+    .interaction-page .dialog-header p {
+      margin: 0;
+      color: #9b8278;
+      font-size: 13px;
+    }
+
+    .interaction-page .close-dialog {
+      background: #f9e4e9;
+      border: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 11px;
+      font-size: 22px;
+      color: #85505e;
+      cursor: pointer;
+    }
+
+    .interaction-page .field {
+      margin-bottom: 15px;
+    }
+
+    .interaction-page .field label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .interaction-page .field textarea {
+      resize: vertical;
+      min-height: 115px;
+      line-height: 1.6;
+    }
+
+    .interaction-page .field-help {
+      font-size: 11px;
+      color: #9b8178;
+      margin-top: 5px;
+    }
+
+    .interaction-page .dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .interaction-page .error-text {
+      color: #ae4242;
+      background: #ffebea;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      margin: 10px 0;
+    }
+
+    .interaction-page .error-text[hidden] {
+      display: none;
+    }
+
+    @media (max-width: 860px) {
+      .interaction-page .stats-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .interaction-page .filter-bar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .interaction-page .stats-row {
+        gap: 10px;
+      }
+      .interaction-page .stat-box {
+        padding: 13px;
+      }
+      .interaction-page .interaction-panel {
+        padding: 15px;
+      }
+      .interaction-page .timeline-card {
+        padding: 14px;
+      }
+      .interaction-page .dialog-card {
+        padding: 19px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .interaction-page *,
+      .interaction-page *::before,
+      .interaction-page *::after {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="app interaction-page">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">♥</div>
+      <div>
+        <strong>CRM Care</strong>
+        <small>Customer Relationship</small>
+      </div>
+    </div>
+
+    <div class="menu-label">KHÔNG GIAN LÀM VIỆC</div>
+
+    <nav class="navigation">
+      <a href="/" class="nav-item">◈ <span>Tổng quan</span></a>
+      <a href="/customers" class="nav-item">♙ <span>Khách hàng</span></a>
+      <a href="/interactions" class="nav-item active">✉ <span>Lịch sử tương tác</span></a>
+      <a href="/contacts" class="nav-item">☏ <span>Liên hệ</span></a>
+      <a href="/#analytics" class="nav-item">▥ <span>Báo cáo</span></a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="breadcrumb">
+        Không gian làm việc <span>/ Lịch sử tương tác</span>
+      </div>
+      <div class="top-avatar">AD</div>
+    </header>
+
+    <div class="content">
+      <div class="interaction-top">
+        <div>
+          <div class="mini-label">✦ CUSTOMER CARE TIMELINE</div>
+          <h1>Lịch sử tương tác ♡</h1>
+          <p>Lưu giữ từng khoảnh khắc chăm sóc khách hàng.</p>
+        </div>
+
+        <button type="button" class="soft-btn primary-btn"
+                id="addInteractionBtn">
+          + Thêm tương tác
+        </button>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-symbol">☎</div>
+          <strong id="totalCalls">0</strong>
+          <small>Cuộc gọi</small>
+        </div>
+        <div class="stat-box">
+          <div class="stat-symbol">✉</div>
+          <strong id="totalEmails">0</strong>
+          <small>Email</small>
+        </div>
+        <div class="stat-box">
+          <div class="stat-symbol">♧</div>
+          <strong id="totalMeetings">0</strong>
+          <small>Cuộc họp</small>
+        </div>
+        <div class="stat-box">
+          <div class="stat-symbol">✎</div>
+          <strong id="totalNotes">0</strong>
+          <small>Ghi chú</small>
+        </div>
+      </div>
+
+      <section class="interaction-panel">
+        <div class="panel-intro">
+          <div>
+            <h2>Nhật ký chăm sóc</h2>
+            <p>Các hoạt động được lưu trực tiếp trong PostgreSQL</p>
+          </div>
+          <span class="count-pill">
+            <%= interactions.length %> hoạt động
+          </span>
+        </div>
+
+        <div class="filter-bar">
+          <input type="search" class="control"
+                 id="interactionSearch"
+                 placeholder="⌕ Tìm nội dung hoặc tên khách hàng..."
+                 aria-label="Tìm kiếm tương tác">
+
+          <select class="control" id="interactionTypeFilter"
+                  aria-label="Lọc loại tương tác">
+            <option value="all">Tất cả loại tương tác</option>
+            <option value="call">☎ Cuộc gọi</option>
+            <option value="email">✉ Email</option>
+            <option value="meeting">♧ Cuộc họp</option>
+            <option value="note">✎ Ghi chú</option>
+          </select>
+
+          <select class="control" id="interactionCustomerFilter"
+                  aria-label="Lọc khách hàng">
+            <option value="all">Tất cả khách hàng</option>
+          </select>
+        </div>
+
+        <ol class="timeline" id="interactionTimeline">
+          <% interactions.forEach(item => { %>
+            <%
+              const types = {
+                call: { icon: '☎', label: 'Cuộc gọi' },
+                email: { icon: '✉', label: 'Email' },
+                meeting: { icon: '♧', label: 'Cuộc họp' },
+                note: { icon: '✎', label: 'Ghi chú' }
+              };
+              const info = types[item.type] || {
+                icon: '♡', label: 'Khác'
+              };
+            %>
+
+            <li class="timeline-item"
+                data-id="<%= item.id %>"
+                data-type="<%= item.type %>"
+                data-customer="<%= item.customer_id %>">
+
+              <span class="timeline-dot"></span>
+
+              <article class="timeline-card">
+                <div class="card-header">
+                  <div class="card-title">
+                    <div class="type-icon type-<%= item.type %>">
+                      <%= info.icon %>
+                    </div>
+                    <div>
+                      <h3><%= item.customer_name %></h3>
+                      <small>Hoạt động chăm sóc khách hàng</small>
+                    </div>
+                  </div>
+                  <span class="type-badge"><%= info.label %></span>
+                </div>
+
+                <div class="timeline-content"><%= item.content %></div>
+
+                <div class="card-footer">
+                  <span class="date-text">
+                    ◷ <%= new Date(item.interaction_date).toLocaleString('vi-VN', {
+                      timeZone: 'Asia/Ho_Chi_Minh',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric'
+                    }) %>
+                  </span>
+
+                  <button type="button" class="tiny-btn"
+                          data-delete-id="<%= item.id %>">
+                    ✕ Xóa
+                  </button>
+                </div>
+              </article>
+            </li>
+          <% }) %>
+        </ol>
+
+        <div class="empty-view" id="emptyInteractions"
+             <%= interactions.length > 0 ? 'hidden' : '' %>>
+          <div class="empty-heart">♡</div>
+          <h3>Chưa có tương tác nào</h3>
+          <p>Hãy tạo hoạt động chăm sóc đầu tiên.</p>
+        </div>
+
+        <div class="field-help" id="visibleCount" style="margin-top:17px">
+          Đang hiển thị <%= interactions.length %> hoạt động
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- POPUP THÊM TƯƠNG TÁC -->
+  <div class="interaction-overlay" id="interactionModal" hidden>
+    <div class="dialog-card" role="dialog" aria-modal="true"
+         aria-labelledby="interactionDialogTitle">
+      <div class="dialog-header">
+        <div>
+          <div class="mini-label">✦ CRM CARE</div>
+          <h2 id="interactionDialogTitle">Thêm tương tác ♡</h2>
+          <p>Lưu một hoạt động chăm sóc mới</p>
+        </div>
+        <button type="button" class="close-dialog"
+                id="closeInteractionBtn" aria-label="Đóng">×</button>
+      </div>
+
+      <form id="interactionForm">
+        <div class="field">
+          <label for="interactionCustomer">Khách hàng *</label>
+          <select name="customer_id" id="interactionCustomer" required>
+            <option value="">Chọn khách hàng</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="interactionType">Loại tương tác *</label>
+          <select name="type" id="interactionType" required>
+            <option value="call">☎ Cuộc gọi</option>
+            <option value="email">✉ Email</option>
+            <option value="meeting">♧ Cuộc họp</option>
+            <option value="note">✎ Ghi chú</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="interactionDate">Ngày giờ tương tác</label>
+          <input type="datetime-local" name="interaction_date"
+                 id="interactionDate">
+          <div class="field-help">
+            Để trống để lưu thời gian hiện tại của PostgreSQL.
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="interactionContent">Nội dung chăm sóc *</label>
+          <textarea name="content" id="interactionContent"
+                    maxlength="5000" required
+                    placeholder="Ví dụ: Đã gọi điện hỏi thăm và tư vấn gói dịch vụ mới..."></textarea>
+        </div>
+
+        <p class="error-text" id="interactionError"
+           role="alert" hidden></p>
+
+        <div class="dialog-actions">
+          <button type="button" class="soft-btn"
+                  id="cancelInteractionBtn">Hủy</button>
+          <button type="submit" class="soft-btn primary-btn"
+                  id="saveInteractionBtn">♡ Lưu tương tác</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- POPUP XÁC NHẬN XÓA -->
+  <div class="interaction-overlay" id="deleteInteractionModal" hidden>
+    <div class="dialog-card" role="dialog" aria-modal="true"
+         aria-labelledby="deleteDialogTitle">
+      <div class="mini-label">✦ CONFIRM ACTION</div>
+      <h2 id="deleteDialogTitle">Xóa hoạt động này?</h2>
+      <p style="color:#957f77;line-height:1.7">
+        Hoạt động này sẽ bị xóa khỏi PostgreSQL và không thể hoàn tác.
+      </p>
+
+      <p class="error-text" id="deleteInteractionError"
+         role="alert" hidden></p>
+
+      <div class="dialog-actions">
+        <button type="button" class="soft-btn"
+                id="cancelDeleteBtn">Giữ lại</button>
+        <button type="button" class="soft-btn danger-btn"
+                id="confirmDeleteBtn">✕ Xóa hoạt động</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const interactionModal = document.getElementById('interactionModal');
+  const deleteModal = document.getElementById('deleteInteractionModal');
+  const interactionForm = document.getElementById('interactionForm');
+  const interactionError = document.getElementById('interactionError');
+  const deleteError = document.getElementById('deleteInteractionError');
+  const saveButton = document.getElementById('saveInteractionBtn');
+  const deleteButton = document.getElementById('confirmDeleteBtn');
+
+  let deleteId = null;
+  let previousFocus = null;
+  let busy = false;
+
+  function openDialog(element) {
+    previousFocus = document.activeElement;
+    element.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDialog(element) {
+    if (busy) return;
+    element.hidden = true;
+    document.body.style.overflow = '';
+    if (previousFocus) previousFocus.focus();
+  }
+
+  async function fetchCustomers() {
+    const response = await fetch('/api/customers');
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || 'Không thể tải danh sách khách hàng');
+    }
+
+    return data.customers;
+  }
+
+  function populateCustomerOptions(select, customers, allOption) {
+    select.replaceChildren(
+      new Option(
+        allOption ? 'Tất cả khách hàng' : 'Chọn khách hàng',
+        allOption ? 'all' : ''
+      )
+    );
+
+    customers.forEach(customer => {
+      select.add(new Option(customer.name, String(customer.id)));
+    });
+  }
+
+  async function showAddModal() {
+    interactionForm.reset();
+    interactionError.hidden = true;
+
+    const select = document.getElementById('interactionCustomer');
+    select.replaceChildren(new Option('Đang tải khách hàng...', ''));
+
+    openDialog(interactionModal);
+
+    try {
+      const customers = await fetchCustomers();
+      populateCustomerOptions(select, customers, false);
+
+      if (customers.length === 0) {
+        throw new Error(
+          'Chưa có khách hàng. Hãy thêm khách hàng trước.'
+        );
+      }
+
+      select.focus();
+    } catch (error) {
+      interactionError.textContent = error.message;
+      interactionError.hidden = false;
+    }
+  }
+
+  interactionForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (busy) return;
+
+    busy = true;
+    saveButton.disabled = true;
+    saveButton.textContent = 'Đang lưu...';
+    interactionError.hidden = true;
+
+    try {
+      const data = Object.fromEntries(
+        new FormData(interactionForm).entries()
+      );
+
+      const response = await fetch('/api/interactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Không thể lưu tương tác');
+      }
+
+      window.location.reload();
+    } catch (error) {
+      interactionError.textContent = error.message;
+      interactionError.hidden = false;
+    } finally {
+      busy = false;
+      saveButton.disabled = false;
+      saveButton.textContent = '♡ Lưu tương tác';
+    }
+  });
+
+  function showDeleteModal(id) {
+    deleteId = id;
+    deleteError.hidden = true;
+    openDialog(deleteModal);
+    document.getElementById('cancelDeleteBtn').focus();
+  }
+
+  async function confirmDelete() {
+    if (!deleteId || busy) return;
+
+    busy = true;
+    deleteButton.disabled = true;
+    deleteButton.textContent = 'Đang xóa...';
+    deleteError.hidden = true;
+
+    try {
+      const response = await fetch(
+        '/api/interactions/' + encodeURIComponent(deleteId),
+        { method: 'DELETE' }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Không thể xóa tương tác');
+      }
+
+      window.location.reload();
+    } catch (error) {
+      deleteError.textContent = error.message;
+      deleteError.hidden = false;
+    } finally {
+      busy = false;
+      deleteButton.disabled = false;
+      deleteButton.textContent = '✕ Xóa hoạt động';
+    }
+  }
+
+  function normalize(value) {
+    return String(value || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd')
+      .replace(/Đ/g, 'D')
+      .toLowerCase()
+      .trim();
+  }
+
+  function filterInteractions() {
+    const keyword = normalize(
+      document.getElementById('interactionSearch').value
+    );
+
+    const type = document.getElementById(
+      'interactionTypeFilter'
+    ).value;
+
+    const customerId = document.getElementById(
+      'interactionCustomerFilter'
+    ).value;
+
+    let count = 0;
+
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      const textMatches = normalize(item.textContent).includes(keyword);
+      const typeMatches = type === 'all' || item.dataset.type === type;
+      const customerMatches = customerId === 'all' ||
+        item.dataset.customer === customerId;
+
+      const visible = textMatches && typeMatches && customerMatches;
+      item.hidden = !visible;
+      if (visible) count++;
+    });
+
+    document.getElementById('visibleCount').textContent =
+      'Đang hiển thị ' + count + ' hoạt động';
+
+    const empty = document.getElementById('emptyInteractions');
+    empty.hidden = count > 0;
+
+    if (count === 0) {
+      empty.querySelector('h3').textContent =
+        document.querySelectorAll('.timeline-item').length > 0
+          ? 'Không tìm thấy hoạt động phù hợp'
+          : 'Chưa có tương tác nào';
+
+      empty.querySelector('p').textContent =
+        document.querySelectorAll('.timeline-item').length > 0
+          ? 'Hãy thay đổi bộ lọc hoặc từ khóa.'
+          : 'Hãy tạo hoạt động chăm sóc đầu tiên.';
+    }
+  }
+
+  // Thống kê 4 nhóm hoạt động từ dữ liệu hiển thị
+  const allItems = Array.from(
+    document.querySelectorAll('.timeline-item')
+  );
+
+  for (const [type, id] of [
+    ['call', 'totalCalls'],
+    ['email', 'totalEmails'],
+    ['meeting', 'totalMeetings'],
+    ['note', 'totalNotes']
+  ]) {
+    document.getElementById(id).textContent =
+      allItems.filter(item => item.dataset.type === type).length;
+  }
+
+  document.getElementById('addInteractionBtn')
+    .addEventListener('click', showAddModal);
+
+  document.getElementById('closeInteractionBtn')
+    .addEventListener('click', () => closeDialog(interactionModal));
+
+  document.getElementById('cancelInteractionBtn')
+    .addEventListener('click', () => closeDialog(interactionModal));
+
+  document.getElementById('cancelDeleteBtn')
+    .addEventListener('click', () => closeDialog(deleteModal));
+
+  deleteButton.addEventListener('click', confirmDelete);
+
+  document.getElementById('interactionTimeline')
+    .addEventListener('click', event => {
+      const button = event.target.closest('[data-delete-id]');
+      if (button) showDeleteModal(button.dataset.deleteId);
+    });
+
+  document.getElementById('interactionSearch')
+    .addEventListener('input', filterInteractions);
+
+  document.getElementById('interactionTypeFilter')
+    .addEventListener('change', filterInteractions);
+
+  document.getElementById('interactionCustomerFilter')
+    .addEventListener('change', filterInteractions);
+
+  interactionModal.addEventListener('click', event => {
+    if (event.target === interactionModal) {
+      closeDialog(interactionModal);
+    }
+  });
+
+  deleteModal.addEventListener('click', event => {
+    if (event.target === deleteModal) {
+      closeDialog(deleteModal);
+    }
+  });
+
+  document.addEventListener('keydown', event => {
+    const active = !deleteModal.hidden
+      ? deleteModal
+      : !interactionModal.hidden ? interactionModal : null;
+
+    if (!active) return;
+
+    if (event.key === 'Escape') {
+      closeDialog(active);
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const focusable = Array.from(active.querySelectorAll(
+      'button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)'
+    ));
+
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  // Bộ lọc khách hàng dùng dữ liệu thật từ PostgreSQL
+  fetchCustomers()
+    .then(customers => {
+      populateCustomerOptions(
+        document.getElementById('interactionCustomerFilter'),
+        customers,
+        true
+      );
+    })
+    .catch(error => {
+      console.error('Load customer filter:', error.message);
+    });
+</script>
+</body>
+</html>

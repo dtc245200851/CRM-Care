@@ -1,0 +1,16 @@
+
+{
+  "name": "crm-cham-soc-khach-hang",
+  "version": "1.0.0",
+  "description": "He thong CRM Cham soc Khach hang",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "ejs": "^3.1.10",
+    "pg": "^8.13.1",
+    "dotenv": "^16.4.5"
+  }
+}

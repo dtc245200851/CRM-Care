@@ -1,0 +1,569 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quản lý liên hệ | CRM Care</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">♥</div>
+      <div>
+        <strong>CRM Care</strong>
+        <small>Customer Relationship</small>
+      </div>
+    </div>
+
+    <div class="menu-label">KHÔNG GIAN LÀM VIỆC</div>
+    <nav class="navigation">
+      <a href="/" class="nav-item">◈ <span>Tổng quan</span></a>
+      <a href="/customers" class="nav-item">♙ <span>Khách hàng</span></a>
+      <a href="/#activities" class="nav-item">✉ <span>Lịch sử tương tác</span></a>
+      <a href="/contacts" class="nav-item active" aria-current="page">☏ <span>Liên hệ</span></a>
+      <a href="/#analytics" class="nav-item">▥ <span>Báo cáo</span></a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="help-box">
+        <div class="help-icon">✦</div>
+        <strong>Chăm sóc tốt hơn</strong>
+        <p>Mỗi khách hàng đều xứng đáng được quan tâm.</p>
+      </div>
+      <div class="user-profile">
+        <div class="avatar">AD</div>
+        <div>
+          <strong>Quản trị viên</strong>
+          <small>Administrator</small>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="breadcrumb">
+        Không gian làm việc <span>/ Liên hệ</span>
+      </div>
+      <div class="top-avatar">AD</div>
+    </header>
+
+    <div class="content">
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">✦ CONTACT MANAGEMENT</div>
+          <h1>Quản lý liên hệ ♡</h1>
+          <p>Kết nối, theo dõi và quản lý người liên hệ.</p>
+        </div>
+        <button type="button" class="btn btn-primary" id="addContactBtn">
+          + Thêm liên hệ
+        </button>
+      </div>
+
+      <section class="panel">
+        <div class="panel-heading customer-heading">
+          <div>
+            <h2>Danh sách liên hệ</h2>
+            <p>Dữ liệu được đồng bộ trực tiếp với PostgreSQL</p>
+          </div>
+          <span class="pill">Tổng: <%= contacts.length %></span>
+        </div>
+
+        <div class="customer-toolbar">
+          <div class="search-wrapper">
+            <span class="search-icon">⌕</span>
+            <input type="search" id="contactSearch"
+              placeholder="Tìm tên, email, khách hàng hoặc số điện thoại..."
+              aria-label="Tìm kiếm liên hệ">
+          </div>
+          <select id="contactCustomerFilter" class="filter-select"
+                  aria-label="Lọc theo khách hàng">
+            <option value="all">Tất cả khách hàng</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table class="crm-contact-table">
+            <thead>
+              <tr>
+                <th>NGƯỜI LIÊN HỆ</th>
+                <th>KHÁCH HÀNG</th>
+                <th>CHỨC VỤ</th>
+                <th>EMAIL</th>
+                <th>SỐ ĐIỆN THOẠI</th>
+                <th>THAO TÁC</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% contacts.forEach(contact => { %>
+                <tr class="contact-row"
+                    data-id="<%= contact.id %>"
+                    data-customer-id="<%= contact.customer_id %>">
+                  <td>
+                    <div class="customer-name">
+                      <span class="initials pink">
+                        <%= contact.name.charAt(0).toUpperCase() %>
+                      </span>
+                      <%= contact.name %>
+                    </div>
+                  </td>
+                  <td><%= contact.customer_name %></td>
+                  <td><%= contact.position || '—' %></td>
+                  <td><%= contact.email || '—' %></td>
+                  <td><%= contact.phone || '—' %></td>
+                  <td>
+                    <div class="customer-actions">
+                      <button type="button"
+                        class="action-btn edit-btn"
+                        data-action="edit"
+                        data-id="<%= contact.id %>">
+                        ✎ Sửa
+                      </button>
+                      <button type="button"
+                        class="action-btn delete-btn"
+                        data-action="delete"
+                        data-id="<%= contact.id %>">
+                        ✕ Xóa
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="filterEmpty" class="customer-empty" hidden>
+          <div class="empty-icon">♡</div>
+          <h3>Không tìm thấy liên hệ</h3>
+          <p>Hãy thử từ khóa hoặc bộ lọc khác.</p>
+        </div>
+
+        <% if (contacts.length === 0) { %>
+          <div class="customer-empty">
+            <div class="empty-icon">♡</div>
+            <h3>Chưa có liên hệ nào</h3>
+            <p>Nhấn Thêm liên hệ để tạo liên hệ đầu tiên.</p>
+          </div>
+        <% } %>
+
+        <div class="table-footer">
+          <span id="contactCount">Đang hiển thị <%= contacts.length %> liên hệ</span>
+          <span>CRM Care ♡</span>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<!-- POPUP THÊM / SỬA LIÊN HỆ -->
+<div id="contactModal" class="modal-overlay" hidden>
+  <div class="customer-modal" role="dialog"
+       aria-modal="true" aria-labelledby="contactModalTitle">
+    <div class="modal-header">
+      <div>
+        <span class="eyebrow">✦ CRM CARE</span>
+        <h2 id="contactModalTitle">Thêm liên hệ ♡</h2>
+        <p id="contactModalDescription">Điền thông tin người liên hệ</p>
+      </div>
+      <button type="button" class="modal-close"
+        id="closeContactBtn" aria-label="Đóng">×</button>
+    </div>
+
+    <form id="contactForm">
+      <div class="form-group">
+        <label for="contactCustomer">Khách hàng *</label>
+        <select id="contactCustomer" name="customer_id" required>
+          <option value="">Chọn khách hàng</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="contactName">Họ và tên *</label>
+        <input id="contactName" name="name" type="text"
+          maxlength="150" required placeholder="Nhập họ và tên">
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="contactEmail">Email</label>
+          <input id="contactEmail" name="email" type="email"
+            maxlength="150" placeholder="example@gmail.com">
+        </div>
+        <div class="form-group">
+          <label for="contactPhone">Số điện thoại</label>
+          <input id="contactPhone" name="phone" type="tel"
+            maxlength="20" placeholder="0912345678">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="contactPosition">Chức vụ</label>
+        <input id="contactPosition" name="position" type="text"
+          maxlength="100" placeholder="Ví dụ: Trưởng phòng kinh doanh">
+      </div>
+
+      <p id="contactError" class="form-error" role="alert" hidden></p>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline"
+          id="cancelContactBtn">Hủy</button>
+        <button type="submit" class="btn btn-primary"
+          id="saveContactBtn">♡ Lưu liên hệ</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- POPUP XÓA -->
+<div id="deleteContactModal" class="modal-overlay" hidden>
+  <div class="customer-modal delete-confirm" role="dialog"
+       aria-modal="true" aria-labelledby="deleteContactTitle">
+    <div class="delete-symbol">♡</div>
+    <h2 id="deleteContactTitle">Xóa liên hệ?</h2>
+    <p>Bạn chắc chắn muốn xóa <strong id="deleteContactName"></strong>?</p>
+    <p class="delete-warning">Thao tác này không thể hoàn tác.</p>
+    <p id="deleteContactError" class="form-error" role="alert" hidden></p>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-outline"
+        id="cancelDeleteContact">Giữ lại</button>
+      <button type="button" class="btn btn-danger"
+        id="confirmDeleteContact">Xóa liên hệ</button>
+    </div>
+  </div>
+</div>
+
+<div id="contactToast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+  const modal = document.getElementById('contactModal');
+  const deleteModal = document.getElementById('deleteContactModal');
+  const form = document.getElementById('contactForm');
+  const saveBtn = document.getElementById('saveContactBtn');
+  const errorBox = document.getElementById('contactError');
+  const customerSelect = document.getElementById('contactCustomer');
+
+  let editingId = null;
+  let deletingId = null;
+  let previousFocus = null;
+  let toastTimer;
+
+  function notify(message) {
+    const toast = document.getElementById('contactToast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  function setModal(element, open) {
+    element.hidden = !open;
+    document.body.classList.toggle('modal-open', open);
+  }
+
+  async function loadCustomers(selectedId = '') {
+    const response = await fetch('/api/customers');
+    if (!response.ok) throw new Error('Không tải được danh sách khách hàng');
+
+    const result = await response.json();
+    if (!result.success) throw new Error('Không tải được khách hàng');
+
+    customerSelect.replaceChildren(new Option('Chọn khách hàng', ''));
+
+    const filter = document.getElementById('contactCustomerFilter');
+    filter.replaceChildren(new Option('Tất cả khách hàng', 'all'));
+
+    result.customers.forEach(customer => {
+      customerSelect.add(
+        new Option(customer.name, String(customer.id))
+      );
+      filter.add(
+        new Option(customer.name, String(customer.id))
+      );
+    });
+
+    customerSelect.value = String(selectedId || '');
+
+    if (result.customers.length === 0) {
+      throw new Error('Bạn cần thêm khách hàng trước khi tạo liên hệ.');
+    }
+  }
+
+  async function openAddContact() {
+    previousFocus = document.activeElement;
+    editingId = null;
+    form.reset();
+    errorBox.hidden = true;
+    document.getElementById('contactModalTitle').textContent =
+      'Thêm liên hệ ♡';
+    document.getElementById('contactModalDescription').textContent =
+      'Điền thông tin người liên hệ mới';
+    saveBtn.textContent = '♡ Lưu liên hệ';
+    setModal(modal, true);
+
+    try {
+      await loadCustomers();
+    } catch (error) {
+      errorBox.textContent = error.message;
+      errorBox.hidden = false;
+    }
+    customerSelect.focus();
+  }
+
+  async function openEditContact(id) {
+    previousFocus = document.activeElement;
+    editingId = null;
+
+    try {
+      const response = await fetch('/api/contacts/' + encodeURIComponent(id));
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Không tải được liên hệ');
+      }
+
+      const contact = result.contact;
+      form.reset();
+      errorBox.hidden = true;
+
+      document.getElementById('contactModalTitle').textContent =
+        'Chỉnh sửa liên hệ ♡';
+      document.getElementById('contactModalDescription').textContent =
+        'Cập nhật thông tin người liên hệ';
+
+      await loadCustomers(contact.customer_id);
+
+      document.getElementById('contactName').value = contact.name || '';
+      document.getElementById('contactEmail').value = contact.email || '';
+      document.getElementById('contactPhone').value = contact.phone || '';
+      document.getElementById('contactPosition').value = contact.position || '';
+
+      editingId = contact.id;
+      saveBtn.textContent = '♡ Cập nhật liên hệ';
+      setModal(modal, true);
+      document.getElementById('contactName').focus();
+    } catch (error) {
+      notify(error.message);
+    }
+  }
+
+  function closeContact() {
+    if (saveBtn.disabled) return;
+    setModal(modal, false);
+    if (previousFocus) previousFocus.focus();
+  }
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(form));
+    const isEditing = editingId !== null;
+
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Đang lưu...';
+    errorBox.hidden = true;
+
+    try {
+      const response = await fetch(
+        isEditing ? '/api/contacts/' + editingId : '/api/contacts',
+        {
+          method: isEditing ? 'PUT' : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        }
+      );
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Không thể lưu liên hệ');
+      }
+
+      setModal(modal, false);
+      window.location.reload();
+    } catch (error) {
+      errorBox.textContent = error.message;
+      errorBox.hidden = false;
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = isEditing
+        ? '♡ Cập nhật liên hệ'
+        : '♡ Lưu liên hệ';
+    }
+  });
+
+  function openDeleteContact(id) {
+    const row = Array.from(document.querySelectorAll('.contact-row'))
+      .find(item => item.dataset.id === String(id));
+
+    if (!row) return;
+
+    previousFocus = document.activeElement;
+    deletingId = id;
+
+    document.getElementById('deleteContactName').textContent =
+      row.querySelector('.customer-name').textContent.trim();
+    document.getElementById('deleteContactError').hidden = true;
+
+    setModal(deleteModal, true);
+    document.getElementById('cancelDeleteContact').focus();
+  }
+
+  function closeDeleteContact() {
+    if (document.getElementById('confirmDeleteContact').disabled) return;
+    setModal(deleteModal, false);
+    deletingId = null;
+    if (previousFocus) previousFocus.focus();
+  }
+
+  async function confirmDeleteContact() {
+    if (!deletingId) return;
+
+    const button = document.getElementById('confirmDeleteContact');
+    const errorBox = document.getElementById('deleteContactError');
+
+    button.disabled = true;
+    button.textContent = 'Đang xóa...';
+    errorBox.hidden = true;
+
+    try {
+      const response = await fetch(
+        '/api/contacts/' + encodeURIComponent(deletingId),
+        { method: 'DELETE' }
+      );
+
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Không thể xóa liên hệ');
+      }
+
+      setModal(deleteModal, false);
+      window.location.reload();
+    } catch (error) {
+      errorBox.textContent = error.message;
+      errorBox.hidden = false;
+    } finally {
+      button.disabled = false;
+      button.textContent = 'Xóa liên hệ';
+    }
+  }
+
+  function normalizeText(text) {
+    return String(text || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd')
+      .replace(/Đ/g, 'D')
+      .toLowerCase()
+      .trim();
+  }
+
+  function filterContacts() {
+    const keyword = normalizeText(
+      document.getElementById('contactSearch').value
+    );
+    const customerId =
+      document.getElementById('contactCustomerFilter').value;
+    let total = 0;
+
+    document.querySelectorAll('.contact-row').forEach(row => {
+      const matchText = normalizeText(row.textContent).includes(keyword);
+      const matchCustomer = customerId === 'all'
+        || row.dataset.customerId === customerId;
+
+      const visible = matchText && matchCustomer;
+      row.hidden = !visible;
+      if (visible) total++;
+    });
+
+    document.getElementById('contactCount').textContent =
+      'Đang hiển thị ' + total + ' liên hệ';
+
+    document.getElementById('filterEmpty').hidden =
+      total !== 0 || document.querySelectorAll('.contact-row').length === 0;
+  }
+
+  document.querySelector('.crm-contact-table').addEventListener(
+    'click', event => {
+      const btn = event.target.closest('button[data-action]');
+      if (!btn) return;
+      if (btn.dataset.action === 'edit') openEditContact(btn.dataset.id);
+      if (btn.dataset.action === 'delete') openDeleteContact(btn.dataset.id);
+    }
+  );
+
+  document.getElementById('contactSearch')
+    .addEventListener('input', filterContacts);
+
+  document.getElementById('contactCustomerFilter')
+    .addEventListener('change', filterContacts);
+
+  document.getElementById('addContactBtn')
+    .addEventListener('click', openAddContact);
+  document.getElementById('closeContactBtn')
+    .addEventListener('click', closeContact);
+  document.getElementById('cancelContactBtn')
+    .addEventListener('click', closeContact);
+  document.getElementById('cancelDeleteContact')
+    .addEventListener('click', closeDeleteContact);
+  document.getElementById('confirmDeleteContact')
+    .addEventListener('click', confirmDeleteContact);
+
+  modal.addEventListener('click', event => {
+    if (event.target === modal) closeContact();
+  });
+
+  deleteModal.addEventListener('click', event => {
+    if (event.target === deleteModal) closeDeleteContact();
+  });
+
+  document.addEventListener('keydown', event => {
+    const activeModal = !deleteModal.hidden
+      ? deleteModal : !modal.hidden ? modal : null;
+
+    if (!activeModal) return;
+
+    if (event.key === 'Escape') {
+      if (activeModal === modal) closeContact();
+      else closeDeleteContact();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const elements = Array.from(activeModal.querySelectorAll(
+      'button:not(:disabled), input:not(:disabled), select:not(:disabled)'
+    ));
+
+    if (!elements.length) return;
+    const first = elements[0];
+    const last = elements[elements.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  // Nạp danh sách khách hàng cho bộ lọc khi mở trang
+  fetch('/api/customers')
+    .then(response => response.json())
+    .then(result => {
+      if (!result.success) return;
+
+      const filter = document.getElementById('contactCustomerFilter');
+      result.customers.forEach(customer => {
+        filter.add(new Option(customer.name, String(customer.id)));
+      });
+    })
+    .catch(error => console.error('Filter load:', error));
+</script>
+</body>
+</html>

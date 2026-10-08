@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Khách hàng | CRM Care</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">♥</div>
+      <div>
+        <strong>CRM Care</strong>
+        <small>Customer Relationship</small>
+      </div>
+    </div>
+
+    <div class="menu-label">KHÔNG GIAN LÀM VIỆC</div>
+
+    <nav class="navigation">
+      <a href="/" class="nav-item">◈ <span>Tổng quan</span></a>
+      <a href="/customers" class="nav-item active" aria-current="page">♙ <span>Khách hàng</span></a>
+      <a href="/#activities" class="nav-item">✉ <span>Lịch sử tương tác</span></a>
+      <a href="/#customers" class="nav-item">☏ <span>Liên hệ</span></a>
+      <a href="/#analytics" class="nav-item">▥ <span>Báo cáo</span></a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="help-box">
+        <div class="help-icon">✦</div>
+        <strong>Chăm sóc tốt hơn</strong>
+        <p>Mỗi khách hàng đều xứng đáng được quan tâm.</p>
+      </div>
+
+      <div class="user-profile">
+        <div class="avatar">AD</div>
+        <div>
+          <strong>Quản trị viên</strong>
+          <small>Administrator</small>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- NỘI DUNG -->
+  <main class="main">
+    <header class="topbar">
+      <div class="breadcrumb">
+        Không gian làm việc <span>/ Khách hàng</span>
+      </div>
+      <div class="top-avatar">AD</div>
+    </header>
+
+    <div class="content">
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">✦ CUSTOMER MANAGEMENT</div>
+          <h1>Quản lý khách hàng ♡</h1>
+          <p>Quản lý thông tin và chăm sóc khách hàng của bạn.</p>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="addCustomerBtn">
+          + Thêm khách hàng
+        </button>
+      </div>
+
+      <!-- BẢNG KHÁCH HÀNG -->
+      <section class="panel customers-panel-page">
+
+        <div class="panel-heading customer-heading">
+          <div>
+            <h2>Danh sách khách hàng</h2>
+            <p>Dữ liệu đồng bộ với PostgreSQL</p>
+          </div>
+          <span class="pill">Tổng: <%= customers.length %></span>
+        </div>
+
+        <div class="customer-toolbar">
+          <div class="search-wrapper">
+            <span class="search-icon">⌕</span>
+            <input type="search" id="customerSearch"
+              placeholder="Tìm theo tên, email, số điện thoại..."
+              aria-label="Tìm kiếm khách hàng">
+          </div>
+
+          <select id="statusFilter" class="filter-select"
+                  aria-label="Lọc trạng thái">
+            <option value="all">Tất cả trạng thái</option>
+            <option value="potential">Tiềm năng</option>
+            <option value="active">Đang chăm sóc</option>
+            <option value="completed">Đã chăm sóc</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table class="crm-customer-table">
+            <thead>
+              <tr>
+                <th>KHÁCH HÀNG</th>
+                <th>EMAIL</th>
+                <th>SỐ ĐIỆN THOẠI</th>
+                <th>TRẠNG THÁI</th>
+                <th>NGÀY TẠO</th>
+                <th>THAO TÁC</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% customers.forEach(customer => { %>
+                <tr class="customer-row"
+                    data-id="<%= customer.id %>"
+                    data-status="<%= customer.status %>"
+                    data-name="<%= customer.name %>"
+                    data-email="<%= customer.email || '' %>"
+                    data-phone="<%= customer.phone || '' %>">
+
+                  <td>
+                    <div class="customer-name">
+                      <span class="initials pink">
+                        <%= customer.name.charAt(0).toUpperCase() %>
+                      </span>
+                      <%= customer.name %>
+                    </div>
+                  </td>
+
+                  <td><%= customer.email || '—' %></td>
+                  <td><%= customer.phone || '—' %></td>
+
+                  <td>
+                    <% if (customer.status === 'active') { %>
+                      <span class="status active-status">Đang chăm sóc</span>
+                    <% } else if (customer.status === 'completed') { %>
+                      <span class="status completed-status">Đã chăm sóc</span>
+                    <% } else { %>
+                      <span class="status potential-status">Tiềm năng</span>
+                    <% } %>
+                  </td>
+
+                  <td>
+                    <%= new Date(customer.created_at).toLocaleDateString('vi-VN') %>
+                  </td>
+
+                  <td>
+                    <div class="customer-actions">
+                      <button type="button"
+                        class="action-btn edit-btn"
+                        data-action="edit"
+                        data-id="<%= customer.id %>">
+                        ✎ Sửa
+                      </button>
+
+                      <button type="button"
+                        class="action-btn delete-btn"
+                        data-action="delete"
+                        data-id="<%= customer.id %>">
+                        ✕ Xóa
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="emptyState" class="customer-empty" hidden>
+          <div class="empty-icon">♡</div>
+          <h3>Không tìm thấy khách hàng</h3>
+          <p>Hãy thử từ khóa hoặc trạng thái khác nhé.</p>
+        </div>
+
+        <% if (customers.length === 0) { %>
+          <div class="customer-empty">
+            <div class="empty-icon">♡</div>
+            <h3>Chưa có khách hàng nào</h3>
+            <p>Nhấn "Thêm khách hàng" để bắt đầu.</p>
+          </div>
+        <% } %>
+
+        <div class="table-footer">
+          <span id="visibleCount">
+            Đang hiển thị <%= customers.length %> khách hàng
+          </span>
+          <span>CRM Care ♡</span>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<!-- POPUP THÊM / SỬA -->
+<div id="customerModal" class="modal-overlay" hidden>
+  <div class="customer-modal" role="dialog"
+       aria-modal="true" aria-labelledby="modalTitle">
+
+    <div class="modal-header">
+      <div>
+        <span class="eyebrow">✦ CRM CARE</span>
+        <h2 id="modalTitle">Thêm khách hàng ♡</h2>
+        <p id="modalDescription">Điền thông tin khách hàng mới</p>
+      </div>
+      <button type="button" class="modal-close"
+        id="closeModalBtn" aria-label="Đóng">×</button>
+    </div>
+
+    <form id="customerForm">
+      <div class="form-group">
+        <label for="customerName">Họ và tên *</label>
+        <input id="customerName" name="name"
+          type="text" maxlength="150"
+          placeholder="Nhập tên khách hàng" required>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="customerEmail">Email</label>
+          <input id="customerEmail" name="email"
+            type="email" maxlength="150"
+            placeholder="example@gmail.com">
+        </div>
+
+        <div class="form-group">
+          <label for="customerPhone">Số điện thoại</label>
+          <input id="customerPhone" name="phone"
+            type="tel" maxlength="20"
+            placeholder="0912345678">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="customerAddress">Địa chỉ</label>
+        <input id="customerAddress" name="address"
+          type="text" maxlength="500"
+          placeholder="Nhập địa chỉ">
+      </div>
+
+      <div class="form-group">
+        <label for="customerStatus">Trạng thái</label>
+        <select id="customerStatus" name="status">
+          <option value="potential">Tiềm năng</option>
+          <option value="active">Đang chăm sóc</option>
+          <option value="completed">Đã chăm sóc</option>
+        </select>
+      </div>
+
+      <p class="form-error" id="formError" role="alert" hidden></p>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline"
+          id="cancelCustomerBtn">Hủy</button>
+        <button type="submit" class="btn btn-primary"
+          id="saveCustomerBtn">♡ Lưu khách hàng</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- POPUP XÁC NHẬN XÓA -->
+<div id="deleteModal" class="modal-overlay" hidden>
+  <div class="customer-modal delete-confirm" role="dialog"
+       aria-modal="true" aria-labelledby="deleteTitle">
+    <div class="delete-symbol">♧</div>
+    <h2 id="deleteTitle">Xóa khách hàng?</h2>
+    <p>Bạn có chắc muốn xóa <strong id="deleteCustomerName"></strong>?</p>
+    <p class="delete-warning">
+      Thao tác này không thể hoàn tác. Liên hệ và
+      lịch sử tương tác liên quan cũng sẽ bị xóa.
+    </p>
+    <p class="form-error" id="deleteError" role="alert" hidden></p>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-outline"
+        id="cancelDeleteBtn">Giữ lại</button>
+      <button type="button" class="btn btn-danger"
+        id="confirmDeleteBtn">Xóa khách hàng</button>
+    </div>
+  </div>
+</div>
+
+<!-- THÔNG BÁO -->
+<div id="customerToast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+  const modal = document.getElementById('customerModal');
+  const deleteModal = document.getElementById('deleteModal');
+  const form = document.getElementById('customerForm');
+  const saveBtn = document.getElementById('saveCustomerBtn');
+  const formError = document.getElementById('formError');
+
+  let editingId = null;
+  let deletingId = null;
+  let previousFocus = null;
+  let toastTimer;
+
+  function showToast(message) {
+    const toast = document.getElementById('customerToast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+  }
+
+  function setModalOpen(element, open) {
+    element.hidden = !open;
+    document.body.classList.toggle('modal-open', open);
+  }
+
+  function openCustomerModal() {
+    previousFocus = document.activeElement;
+    editingId = null;
+    form.reset();
+    formError.hidden = true;
+    document.getElementById('modalTitle').textContent = 'Thêm khách hàng ♡';
+    document.getElementById('modalDescription').textContent =
+      'Điền thông tin khách hàng mới';
+    saveBtn.textContent = '♡ Lưu khách hàng';
+    setModalOpen(modal, true);
+    document.getElementById('customerName').focus();
+  }
+
+  function closeCustomerModal() {
+    if (saveBtn.disabled) return;
+    setModalOpen(modal, false);
+    if (previousFocus) previousFocus.focus();
+  }
+
+  async function editCustomer(id) {
+    previousFocus = document.activeElement;
+    editingId = null;
+    try {
+      const response = await fetch('/api/customers/' + encodeURIComponent(id));
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Không thể tải khách hàng');
+      }
+
+      const customer = result.customer;
+      editingId = customer.id;
+
+      form.reset();
+      formError.hidden = true;
+      document.getElementById('modalTitle').textContent =
+        'Chỉnh sửa khách hàng ♡';
+      document.getElementById('modalDescription').textContent =
+        'Cập nhật thông tin khách hàng';
+      document.getElementById('customerName').value = customer.name || '';
+      document.getElementById('customerEmail').value = customer.email || '';
+      document.getElementById('customerPhone').value = customer.phone || '';
+      document.getElementById('customerAddress').value = customer.address || '';
+      document.getElementById('customerStatus').value =
+        customer.status || 'potential';
+
+      saveBtn.textContent = '♡ Cập nhật khách hàng';
+      setModalOpen(modal, true);
+      document.getElementById('customerName').focus();
+    } catch (error) {
+      showToast(error.message);
+    }
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const data = Object.fromEntries(new FormData(form));
+    const isEditing = editingId !== null;
+
+    formError.hidden = true;
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Đang lưu...';
+
+    try {
+      const url = isEditing
+        ? '/api/customers/' + editingId
+        : '/api/customers';
+
+      const response = await fetch(url, {
+        method: isEditing ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Không thể lưu khách hàng');
+      }
+
+      setModalOpen(modal, false);
+      window.location.reload();
+    } catch (error) {
+      formError.textContent = error.message;
+      formError.hidden = false;
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = isEditing
+        ? '♡ Cập nhật khách hàng'
+        : '♡ Lưu khách hàng';
+    }
+  });
+
+  function openDeleteModal(id) {
+    const row = Array.from(
+      document.querySelectorAll('.customer-row')
+    ).find(item => item.dataset.id === String(id));
+
+    if (!row) return;
+
+    previousFocus = document.activeElement;
+    deletingId = id;
+    document.getElementById('deleteCustomerName').textContent =
+      row.dataset.name || 'khách hàng này';
+    document.getElementById('deleteError').hidden = true;
+
+    setModalOpen(deleteModal, true);
+    document.getElementById('cancelDeleteBtn').focus();
+  }
+
+  function closeDeleteModal() {
+    if (document.getElementById('confirmDeleteBtn').disabled) return;
+    setModalOpen(deleteModal, false);
+    deletingId = null;
+    if (previousFocus) previousFocus.focus();
+  }
+
+  async function confirmDelete() {
+    if (!deletingId) return;
+
+    const button = document.getElementById('confirmDeleteBtn');
+    const errorBox = document.getElementById('deleteError');
+    button.disabled = true;
+    button.textContent = 'Đang xóa...';
+    errorBox.hidden = true;
+
+    try {
+      const response = await fetch(
+        '/api/customers/' + encodeURIComponent(deletingId),
+        { method: 'DELETE' }
+      );
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Không thể xóa khách hàng');
+      }
+
+      setModalOpen(deleteModal, false);
+      window.location.reload();
+    } catch (error) {
+      errorBox.textContent = error.message;
+      errorBox.hidden = false;
+    } finally {
+      button.disabled = false;
+      button.textContent = 'Xóa khách hàng';
+    }
+  }
+
+  // Nút thao tác của mỗi khách hàng
+  document.querySelector('.crm-customer-table').addEventListener(
+    'click', (event) => {
+      const button = event.target.closest('button[data-action]');
+      if (!button) return;
+
+      if (button.dataset.action === 'edit') {
+        editCustomer(button.dataset.id);
+      } else if (button.dataset.action === 'delete') {
+        openDeleteModal(button.dataset.id);
+      }
+    }
+  );
+
+  // Tìm kiếm và lọc trạng thái
+  const searchInput = document.getElementById('customerSearch');
+  const statusFilter = document.getElementById('statusFilter');
+
+  function normalizeText(text) {
+    return String(text || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd')
+      .replace(/Đ/g, 'D')
+      .toLowerCase()
+      .trim();
+  }
+
+  function filterCustomers() {
+    const keyword = normalizeText(searchInput.value);
+    const status = statusFilter.value;
+    let visible = 0;
+
+    document.querySelectorAll('.customer-row').forEach(row => {
+      const content = normalizeText([
+        row.dataset.name,
+        row.dataset.email,
+        row.dataset.phone
+      ].join(' '));
+
+      const matchesKeyword = content.includes(keyword);
+      const matchesStatus =
+        status === 'all' || row.dataset.status === status;
+
+      const show = matchesKeyword && matchesStatus;
+      row.hidden = !show;
+      if (show) visible++;
+    });
+
+    document.getElementById('visibleCount').textContent =
+      'Đang hiển thị ' + visible + ' khách hàng';
+
+    document.getElementById('emptyState').hidden =
+      visible !== 0 || document.querySelectorAll('.customer-row').length === 0;
+  }
+
+  searchInput.addEventListener('input', filterCustomers);
+  statusFilter.addEventListener('change', filterCustomers);
+
+  // Các nút popup
+  document.getElementById('addCustomerBtn').addEventListener(
+    'click', openCustomerModal
+  );
+  document.getElementById('closeModalBtn').addEventListener(
+    'click', closeCustomerModal
+  );
+  document.getElementById('cancelCustomerBtn').addEventListener(
+    'click', closeCustomerModal
+  );
+  document.getElementById('cancelDeleteBtn').addEventListener(
+    'click', closeDeleteModal
+  );
+  document.getElementById('confirmDeleteBtn').addEventListener(
+    'click', confirmDelete
+  );
+
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) closeCustomerModal();
+  });
+
+  deleteModal.addEventListener('click', (event) => {
+    if (event.target === deleteModal) closeDeleteModal();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    const currentModal = !deleteModal.hidden
+      ? deleteModal
+      : !modal.hidden ? modal : null;
+
+    if (!currentModal) return;
+
+    if (event.key === 'Escape') {
+      if (currentModal === deleteModal) closeDeleteModal();
+      else closeCustomerModal();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const controls = Array.from(
+      currentModal.querySelectorAll(
+        'button:not(:disabled), input:not(:disabled), select:not(:disabled)'
+      )
+    ).filter(el => el.getClientRects().length > 0);
+
+    if (!controls.length) return;
+
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+</script>
+</body>
+</html>
