@@ -1,225 +1,77 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dashboard | CRM Care</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <meta name="theme-color" content="#F5F0E6">
+  <title>Tổng quan | CRM Care</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/navigation.css">
 </head>
-<body>
+<body class="dashboard-page crm-unified">
 <div class="app">
-
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-icon">♥</div>
-      <div>
-        <strong>CRM Care</strong>
-        <small>Customer Relationship</small>
-      </div>
-    </div>
-
-    <div class="menu-label">KHÔNG GIAN LÀM VIỆC</div>
-
-    <nav class="navigation">
-      <a href="/" class="nav-item active">◈ <span>Tổng quan</span></a>
-      <a href="/customers" class="nav-item">♙ <span>Khách hàng</span></a>
-      <a href="#activities" class="nav-item">✉ <span>Lịch sử tương tác</span></a>
-      <a href="#customers" class="nav-item">☏ <span>Liên hệ</span></a>
-      <a href="#analytics" class="nav-item">▥ <span>Báo cáo</span></a>
-    </nav>
-
-    <div class="sidebar-bottom">
-      <div class="help-box">
-        <div class="help-icon">✦</div>
-        <strong>Chăm sóc tốt hơn</strong>
-        <p>Mỗi khách hàng đều xứng đáng được quan tâm.</p>
-      </div>
-
-      <div class="user-profile">
-        <div class="avatar">AD</div>
-        <div>
-          <strong>Quản trị viên</strong>
-          <small>Administrator</small>
-        </div>
-        <span>⌄</span>
-      </div>
-    </div>
-  </aside>
+  <%- include("partials/navigation", { activePage: "dashboard" }) %>
 
   <main class="main">
     <header class="topbar">
       <div class="breadcrumb">Không gian làm việc <span>/ Tổng quan</span></div>
-      <div class="top-actions">
-        <span class="demo-tag">DỮ LIỆU MẪU</span>
-        <div class="top-avatar">AD</div>
-      </div>
+      <div class="top-actions"><span class="demo-tag">DỮ LIỆU MẪU</span><span class="top-avatar">AD</span></div>
     </header>
 
     <div class="content">
-      <div class="page-heading">
-        <div>
-          <div class="eyebrow">✦ TRANG TỔNG QUAN</div>
-          <h1>Xin chào, Quản trị viên <span>♡</span></h1>
-          <p>Đây là không gian quản lý và chăm sóc khách hàng của bạn.</p>
-        </div>
-        <button class="btn btn-primary" onclick="showDemoNotice()">
-          + Thêm khách hàng
-        </button>
-      </div>
-
-      <section class="stats-grid">
-        <article class="stat-card">
-          <div class="stat-icon pink">♙</div>
-          <span class="stat-label">Tổng khách hàng</span>
-          <div class="stat-number">1.248</div>
-          <span class="stat-foot">↗ +12,8% so với tháng trước</span>
-        </article>
-
-        <article class="stat-card blush">
-          <div class="stat-icon white">♡</div>
-          <span class="stat-label">Khách hàng mới</span>
-          <div class="stat-number">186</div>
-          <span class="stat-foot">↗ +8,2% so với tháng trước</span>
-        </article>
-
-        <article class="stat-card">
-          <div class="stat-icon sage">✉</div>
-          <span class="stat-label">Lượt tương tác</span>
-          <div class="stat-number">2.430</div>
-          <span class="stat-foot">↗ +18,5% so với tháng trước</span>
-        </article>
-
-        <article class="stat-card">
-          <div class="stat-icon gold">◷</div>
-          <span class="stat-label">Cần chăm sóc</span>
-          <div class="stat-number">32</div>
-          <span class="stat-foot muted">Khách hàng cần theo dõi</span>
-        </article>
+      <section class="page-heading" aria-label="Giới thiệu trang tổng quan">
+        <div><div class="eyebrow">✦ TRANG TỔNG QUAN</div><h1>Xin chào, Quản trị viên <span>♡</span></h1><p>Không gian chăm sóc khách hàng, nhẹ nhàng và dễ theo dõi.</p></div>
+        <a class="btn btn-primary" href="/customers">＋ Thêm khách hàng</a>
       </section>
 
-      <section class="dashboard-grid" id="analytics">
-        <div class="panel chart-panel">
-          <div class="panel-heading">
-            <div>
-              <h2>Hoạt động chăm sóc</h2>
-              <p>Thống kê tương tác trong 7 ngày gần đây</p>
-            </div>
-            <span class="pill">7 ngày qua</span>
-          </div>
+      <section class="stats-grid" aria-label="Chỉ số minh họa">
+        <article class="stat-card"><div class="stat-icon pink">♙</div><span class="stat-label">Tổng khách hàng</span><div class="stat-number">1.248</div><span class="stat-foot">↗ +12,8% so với tháng trước</span></article>
+        <article class="stat-card blush"><div class="stat-icon white">♡</div><span class="stat-label">Khách hàng mới</span><div class="stat-number">186</div><span class="stat-foot">↗ +8,2% so với tháng trước</span></article>
+        <article class="stat-card"><div class="stat-icon sage">✉</div><span class="stat-label">Lượt tương tác</span><div class="stat-number">2.430</div><span class="stat-foot">↗ +18,5% so với tháng trước</span></article>
+        <article class="stat-card"><div class="stat-icon gold">◷</div><span class="stat-label">Cần chăm sóc</span><div class="stat-number">32</div><span class="stat-foot muted">Khách hàng cần theo dõi</span></article>
+      </section>
 
-          <div class="chart">
-            <div class="chart-grid">
-              <span>100</span>
-              <span>75</span>
-              <span>50</span>
-              <span>25</span>
-              <span>0</span>
-            </div>
+      <section class="dashboard-grid" id="analytics" aria-label="Hoạt động chăm sóc minh họa">
+        <article class="panel chart-panel">
+          <div class="panel-heading"><div><h2>Hoạt động chăm sóc</h2><p>Minh họa tương tác trong 7 ngày gần đây</p></div><span class="pill">7 ngày qua</span></div>
+          <div class="chart" role="img" aria-label="Biểu đồ minh họa tương tác từ thứ hai đến chủ nhật">
+            <div class="chart-grid"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div>
             <div class="bars">
-              <div class="bar-item"><div class="bar" style="height:48%"></div><span>T2</span></div>
-              <div class="bar-item"><div class="bar" style="height:72%"></div><span>T3</span></div>
-              <div class="bar-item"><div class="bar" style="height:57%"></div><span>T4</span></div>
-              <div class="bar-item"><div class="bar highlight" style="height:94%"></div><span>T5</span></div>
-              <div class="bar-item"><div class="bar" style="height:76%"></div><span>T6</span></div>
-              <div class="bar-item"><div class="bar" style="height:62%"></div><span>T7</span></div>
-              <div class="bar-item"><div class="bar" style="height:84%"></div><span>CN</span></div>
+              <div class="bar-item"><div class="bar" style="height:48%" title="Thứ 2: 48"></div><span>T2</span></div>
+              <div class="bar-item"><div class="bar" style="height:72%" title="Thứ 3: 72"></div><span>T3</span></div>
+              <div class="bar-item"><div class="bar" style="height:57%" title="Thứ 4: 57"></div><span>T4</span></div>
+              <div class="bar-item"><div class="bar highlight" style="height:94%" title="Thứ 5: 94"></div><span>T5</span></div>
+              <div class="bar-item"><div class="bar" style="height:76%" title="Thứ 6: 76"></div><span>T6</span></div>
+              <div class="bar-item"><div class="bar" style="height:62%" title="Thứ 7: 62"></div><span>T7</span></div>
+              <div class="bar-item"><div class="bar" style="height:84%" title="Chủ nhật: 84"></div><span>CN</span></div>
             </div>
           </div>
-        </div>
-
-        <div class="panel activity-panel" id="activities">
-          <div class="panel-heading">
-            <div>
-              <h2>Hoạt động gần đây</h2>
-              <p>Cập nhật chăm sóc mới nhất</p>
-            </div>
-            <span class="activity-decor">✦</span>
-          </div>
-
+        </article>
+        <article class="panel activity-panel" id="activities">
+          <div class="panel-heading"><div><h2>Hoạt động gần đây</h2><p>Các hoạt động mẫu để xem trước bố cục</p></div><span class="activity-decor">✦</span></div>
           <div class="activity-list">
-            <div class="activity">
-              <div class="activity-icon sage">✓</div>
-              <div><strong>Hoàn thành cuộc gọi</strong><p>Nguyễn Minh Anh</p><small>10 phút trước</small></div>
-            </div>
-            <div class="activity">
-              <div class="activity-icon pink">✉</div>
-              <div><strong>Đã gửi email tư vấn</strong><p>Trần Hoàng Nam</p><small>35 phút trước</small></div>
-            </div>
-            <div class="activity">
-              <div class="activity-icon gold">♡</div>
-              <div><strong>Khách hàng mới</strong><p>Lê Thanh Hương</p><small>2 giờ trước</small></div>
-            </div>
+            <div class="activity"><div class="activity-icon sage">✓</div><div><strong>Hoàn thành cuộc gọi</strong><p>Nguyễn Minh Anh</p><small>10 phút trước · Minh họa</small></div></div>
+            <div class="activity"><div class="activity-icon pink">✉</div><div><strong>Đã gửi email tư vấn</strong><p>Trần Hoàng Nam</p><small>35 phút trước · Minh họa</small></div></div>
+            <div class="activity"><div class="activity-icon gold">♡</div><div><strong>Khách hàng mới</strong><p>Lê Thanh Hương</p><small>2 giờ trước · Minh họa</small></div></div>
           </div>
-        </div>
+          <a class="subtle-link" href="/interactions">Xem lịch sử tương tác →</a>
+        </article>
       </section>
 
       <section class="panel customers-panel" id="customers">
-        <div class="panel-heading customer-heading">
-          <div>
-            <h2>Khách hàng gần đây</h2>
-            <p>Danh sách khách hàng trong hệ thống</p>
-          </div>
-          <button class="btn btn-outline" onclick="showDemoNotice()">Xem tất cả →</button>
-        </div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>KHÁCH HÀNG</th>
-                <th>EMAIL</th>
-                <th>SỐ ĐIỆN THOẠI</th>
-                <th>TRẠNG THÁI</th>
-                <th>THAO TÁC</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><div class="customer-name"><span class="initials pink">MA</span> Nguyễn Minh Anh</div></td>
-                <td>minhanh@example.com</td>
-                <td>090 123 4567</td>
-                <td><span class="status active-status">Đang chăm sóc</span></td>
-                <td><button class="table-btn" onclick="showDemoNotice()">Chi tiết ↗</button></td>
-              </tr>
-              <tr>
-                <td><div class="customer-name"><span class="initials sage">HN</span> Trần Hoàng Nam</div></td>
-                <td>hoangnam@example.com</td>
-                <td>091 234 5678</td>
-                <td><span class="status potential-status">Tiềm năng</span></td>
-                <td><button class="table-btn" onclick="showDemoNotice()">Chi tiết ↗</button></td>
-              </tr>
-              <tr>
-                <td><div class="customer-name"><span class="initials gold">TH</span> Lê Thanh Hương</div></td>
-                <td>thanhhuong@example.com</td>
-                <td>098 765 4321</td>
-                <td><span class="status completed-status">Đã chăm sóc</span></td>
-                <td><button class="table-btn" onclick="showDemoNotice()">Chi tiết ↗</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="panel-heading customer-heading"><div><h2>Khách hàng nổi bật</h2><p>Dữ liệu minh họa thiết kế bảng khách hàng</p></div><a class="btn btn-outline" href="/customers">Xem danh sách thực tế →</a></div>
+        <div class="table-wrap"><table><thead><tr><th>KHÁCH HÀNG</th><th>EMAIL</th><th>SỐ ĐIỆN THOẠI</th><th>TRẠNG THÁI</th><th>THAO TÁC</th></tr></thead><tbody>
+          <tr><td><div class="customer-name"><span class="initials pink">MA</span> Nguyễn Minh Anh</div></td><td>minhanh@example.com</td><td>090 123 4567</td><td><span class="status active-status">Đang chăm sóc</span></td><td><a class="table-btn" href="/customers">Mở danh sách ↗</a></td></tr>
+          <tr><td><div class="customer-name"><span class="initials sage">HN</span> Trần Hoàng Nam</div></td><td>hoangnam@example.com</td><td>091 234 5678</td><td><span class="status potential-status">Tiềm năng</span></td><td><a class="table-btn" href="/customers">Mở danh sách ↗</a></td></tr>
+          <tr><td><div class="customer-name"><span class="initials gold">TH</span> Lê Thanh Hương</div></td><td>thanhhuong@example.com</td><td>098 765 4321</td><td><span class="status completed-status">Đã chăm sóc</span></td><td><a class="table-btn" href="/customers">Mở danh sách ↗</a></td></tr>
+        </tbody></table></div>
       </section>
-
-      <footer>CRM Care © 2026 · Made with ♡</footer>
+      <footer>CRM Care © 2026 · Made with ♡ · Dashboard minh họa, dữ liệu thực nằm trong các trang quản lý</footer>
     </div>
   </main>
 </div>
-
-<div id="toast" class="toast" role="status" aria-live="polite">
-  Chức năng này sẽ được kết nối PostgreSQL ở bước tiếp theo.
-</div>
-
-<script>
-  function showDemoNotice() {
-    const toast = document.getElementById('toast');
-    toast.classList.add('show');
-    clearTimeout(window.toastTimer);
-    window.toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
-  }
-</script>
 </body>
 </html>
