@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
-
 :root {
+
+  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --espresso: #3E2723;
 
@@ -40,7 +40,7 @@
 
 
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; font-family: var(--font-sans); }
 
 
 
@@ -48,7 +48,17 @@ body {
 
   margin: 0;
 
-  font-family: "Be Vietnam Pro", Arial, sans-serif;
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 400;
+
+  line-height: 1.65;
+
+  letter-spacing: 0;
+
+  -webkit-font-smoothing: antialiased;
 
   background: var(--ivory);
 
@@ -58,7 +68,7 @@ body {
 
 
 
-button, a { font: inherit; }
+button, input, select, textarea, optgroup { font: inherit; letter-spacing: inherit; }
 
 
 
@@ -162,7 +172,7 @@ button:focus-visible, a:focus-visible {
 
   margin: 0 15px 18px;
 
-  font-weight: 800;
+  font-weight: 700;
 
 }
 
@@ -214,7 +224,7 @@ button:focus-visible, a:focus-visible {
 
   color: var(--espresso);
 
-  font-weight: 800;
+  font-weight: 700;
 
   box-shadow: 0 6px 18px #0002;
 
@@ -282,7 +292,7 @@ button:focus-visible, a:focus-visible {
 
   font-size: 12px;
 
-  font-weight: 800;
+  font-weight: 700;
 
 }
 
@@ -322,7 +332,7 @@ button:focus-visible, a:focus-visible {
 
 .breadcrumb { font-size: 12px; color: #947D75; }
 
-.breadcrumb span { color: var(--espresso); font-weight: 800; }
+.breadcrumb span { color: var(--espresso); font-weight: 700; }
 
 .top-actions { display: flex; align-items: center; gap: 17px; }
 
@@ -338,7 +348,7 @@ button:focus-visible, a:focus-visible {
 
   font-size: 10px;
 
-  font-weight: 800;
+  font-weight: 700;
 
 }
 
@@ -372,7 +382,7 @@ button:focus-visible, a:focus-visible {
 
   color: #B07E84;
 
-  font-weight: 800;
+  font-weight: 700;
 
   margin-bottom: 12px;
 
@@ -380,7 +390,7 @@ button:focus-visible, a:focus-visible {
 
 
 
-h1 { font-size: 29px; margin: 0 0 9px; letter-spacing: -.9px; }
+h1 { font-size: 29px; margin: 0 0 9px; }
 
 h1 span { color: #D895AE; }
 
@@ -398,7 +408,7 @@ h1 span { color: #D895AE; }
 
   font-size: 12px;
 
-  font-weight: 800;
+  font-weight: 600;
 
   transition: transform .22s, box-shadow .22s, background .22s;
 
@@ -430,17 +440,7 @@ h1 span { color: #D895AE; }
 
 
 
-.stat-card, .panel {
-
-  background: var(--cream);
-
-  border: 1px solid var(--border);
-
-  border-radius: 20px;
-
-  box-shadow: var(--shadow);
-
-}
+.stat-card, .panel { min-width: 0; }
 
 
 
@@ -450,23 +450,7 @@ h1 span { color: #D895AE; }
 
   min-height: 191px;
 
-  transition: transform .25s, box-shadow .25s;
-
 }
-
-
-
-.stat-card:hover, .panel:hover {
-
-  box-shadow: 0 13px 30px #3E272316, 0 3px 9px #3E27230A;
-
-}
-
-
-
-.stat-card:hover { transform: translateY(-5px); }
-
-.stat-card.blush { background: #F8D9E3; border-color: #F4CEDA; }
 
 
 
@@ -502,7 +486,7 @@ h1 span { color: #D895AE; }
 
 .stat-label { color: #927D73; font-size: 12px; font-weight: 600; }
 
-.stat-number { font-size: 31px; font-weight: 800; margin: 7px 0; letter-spacing: -1px; }
+.stat-number { font-size: 31px; font-weight: 700; margin: 7px 0; letter-spacing: -.035em; line-height: 1.25; }
 
 .stat-foot { font-size: 10px; color: #688D6C; font-weight: 700; }
 
@@ -530,7 +514,7 @@ h1 span { color: #D895AE; }
 
 .panel-heading h2 { font-size: 16px; margin: 0 0 7px; }
 
-.pill { background: var(--pink-soft); border-radius: 18px; padding: 9px 12px; font-size: 10px; font-weight: 800; }
+.pill { background: var(--pink-soft); border-radius: 18px; padding: 9px 12px; font-size: 10px; font-weight: 700; }
 
 .activity-decor { color: #D6A6BA; font-size: 24px; }
 
@@ -686,7 +670,7 @@ th {
 
   color: #94796E;
 
-  font-weight: 800;
+  font-weight: 600;
 
 }
 
@@ -700,11 +684,11 @@ tbody tr { transition: background .2s; }
 
 tbody tr:hover { background: #FFF1F6; }
 
-.customer-name { display: flex; align-items: center; gap: 10px; color: var(--espresso); font-weight: 800; white-space: nowrap; }
+.customer-name { display: flex; align-items: center; gap: 10px; color: var(--espresso); font-weight: 600; white-space: nowrap; }
 
 .initials { width: 33px; height: 33px; border-radius: 11px; display: grid; place-items: center; font-size: 10px; }
 
-.status { display: inline-block; padding: 8px 10px; border-radius: 15px; font-size: 10px; font-weight: 800; white-space: nowrap; }
+.status { display: inline-block; padding: 8px 10px; border-radius: 15px; font-size: 10px; font-weight: 600; white-space: nowrap; }
 
 .active-status { background: #FBE4EA; color: #B06A7C; }
 
@@ -712,7 +696,7 @@ tbody tr:hover { background: #FFF1F6; }
 
 .completed-status { background: #E6F0E3; color: #668B6C; }
 
-.table-btn { border: 0; background: transparent; color: #94716F; font-weight: 800; font-size: 11px; padding: 8px; }
+.table-btn { border: 0; background: transparent; color: #94716F; font-weight: 600; font-size: 11px; padding: 8px; }
 
 .table-btn:hover { color: #3E2723; text-decoration: underline; }
 
@@ -988,7 +972,7 @@ footer { color: #AD988F; text-align: center; padding: 31px 0 5px; font-size: 11p
 
   font-size: 12px;
 
-  font-weight: 700;
+  font-weight: 600;
 
 }
 
@@ -1592,13 +1576,7 @@ footer { color: #AD988F; text-align: center; padding: 31px 0 5px; font-size: 11p
 
 
 
-.modal-overlay[hidden],
 
-.form-error[hidden] {
-
-  display: none !important;
-
-}
 
 
 
@@ -1774,236 +1752,48 @@ footer { color: #AD988F; text-align: center; padding: 31px 0 5px; font-size: 11p
 
 
 
-/* =========================================
-
-   CRM CARE - BE VIETNAM PRO TYPOGRAPHY
-
-   ========================================= */
-
-
-
-html,
-
-body,
-
-button,
-
-input,
-
-select,
-
-textarea,
-
-table {
-
-  font-family: 'Be Vietnam Pro', sans-serif;
-
-}
-
-
-
-body {
-
-  font-size: 14px;
-
-  font-weight: 400;
-
-  line-height: 1.65;
-
-  -webkit-font-smoothing: antialiased;
-
-}
-
-
-
-/* Tiêu đề */
-
+/* Shared typography: headings, controls and statistics inherit Manrope. */
 h1, h2, h3, h4, h5, h6 {
-
-  font-family: 'Be Vietnam Pro', sans-serif;
-
   font-weight: 600;
-
-  letter-spacing: -0.035em;
-
-  line-height: 1.35;
-
+  letter-spacing: -.02em;
+  line-height: 1.4;
 }
 
-
-
-/* Nút bấm */
-
-button,
-
-.btn {
-
-  font-family: 'Be Vietnam Pro', sans-serif;
-
+button, .btn {
   font-size: 13px;
-
   font-weight: 600;
-
-  letter-spacing: -0.01em;
-
+  line-height: 1.5;
 }
 
-
-
-/* Menu */
-
-nav,
-
-.sidebar,
-
-.menu,
-
-.nav-link {
-
-  font-family: 'Be Vietnam Pro', sans-serif;
-
-  font-weight: 500;
-
-}
-
-
-
-/* Bảng dữ liệu */
-
-table,
-
-th,
-
-td {
-
-  font-family: 'Be Vietnam Pro', sans-serif;
-
-  letter-spacing: -0.01em;
-
-}
-
-
-
-th {
-
-  font-weight: 600;
-
-}
-
-
-
-/* Ô nhập liệu */
-
-input,
-
-select,
-
-textarea {
-
-  font-family: 'Be Vietnam Pro', sans-serif;
-
+input, select, textarea {
   font-size: 13px;
-
   font-weight: 400;
-
 }
 
-
-
-/* Thẻ thống kê */
-
-.stat-value,
-
-.stat-number,
-
-.metric-value {
-
-  font-family: 'Be Vietnam Pro', sans-serif;
-
+.stat-value, .metric-value {
   font-weight: 700;
-
-  letter-spacing: -0.04em;
-
+  letter-spacing: -.035em;
+  line-height: 1.25;
 }
-
 
 /* ================================================
    CRM CARE / GLASS DASHBOARD - scoped to homepage
    Keeps existing customer/contact/modal CSS intact.
    ================================================ */
-.dashboard-page {
-  font-family: 'Be Vietnam Pro', sans-serif;
-  color: #3E2723;
-  background:
-    radial-gradient(ellipse 52% 38% at 7% 8%, rgba(244, 184, 215, .56), transparent 100%),
-    radial-gradient(ellipse 50% 48% at 93% 12%, rgba(177, 198, 244, .46), transparent 100%),
-    radial-gradient(ellipse 60% 43% at 51% 86%, rgba(226, 204, 251, .38), transparent 100%),
-    linear-gradient(125deg, #f6eee7, #f8eff5 47%, #eef0f9);
-  background-attachment: fixed;
-}
-.dashboard-page .app { display: block; min-height: 100vh; }
-.dashboard-page .sidebar {
-  width: 100%; height: auto; min-height: 84px;
-  position: relative; inset: auto;
-  display: flex; flex-direction: row; align-items: center;
-  gap: clamp(18px, 4vw, 70px); padding: 12px clamp(20px, 3vw, 54px);
-  background: rgba(255,255,255,.58);
-  border-bottom: 1px solid rgba(255,255,255,.76);
-  box-shadow: 0 6px 28px rgba(76,49,70,.06);
-  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-  color: #3E2723;
-  z-index: 5;
-}
-.dashboard-page .brand { margin: 0; padding: 0; min-width: 235px; color: #3E2723; text-decoration: none; }
-.dashboard-page .brand strong { font-size: 21px; line-height: 1.3; letter-spacing: -.05em; }
-.dashboard-page .brand small { color: #887980; font-size: 10px; }
-.dashboard-page .brand-icon { background: rgba(242,179,208,.54); box-shadow: none; }
-.dashboard-page .menu-label, .dashboard-page .sidebar-bottom { display: none; }
-.dashboard-page .navigation { display: flex; align-items: center; gap: clamp(4px, 1.5vw, 25px); flex-wrap: wrap; }
-.dashboard-page .nav-item { color: #625965; font-size: 12px; border-radius: 10px; padding: 12px 11px; gap: 5px; }
-.dashboard-page .nav-symbol { font-size: 14px; color: #B66D8A; }
-.dashboard-page .nav-item:hover { background: rgba(255,255,255,.55); color: #3E2723; transform: none; }
-.dashboard-page .nav-item.active {
-  color: #3E2723; font-weight: 700; background: rgba(255,255,255,.58);
-  box-shadow: inset 0 -2px 0 #BD7190;
-}
-.dashboard-page .topbar { height: 60px; padding: 0 clamp(20px, 3vw, 54px); background: transparent; border: 0; }
-.dashboard-page .breadcrumb { font-size: 11px; }
 .dashboard-page .demo-tag { color: #764c60; background: rgba(255,236,245,.64); border: 1px solid rgba(255,255,255,.7); padding: 9px 14px; }
-.dashboard-page .top-avatar { border-radius: 50%; background: #edbcd9; }
-.dashboard-page .content { max-width: 1680px; padding: 25px clamp(20px, 3vw, 54px) 35px; }
 .dashboard-page .page-heading { margin-bottom: 24px; }
 .dashboard-page .eyebrow { color: #AD6987; font-weight: 700; letter-spacing: 1.35px; }
-.dashboard-page h1 { font-weight: 700; font-size: clamp(25px, 2.6vw, 38px); letter-spacing: -.045em; }
+.dashboard-page h1 { font-weight: 700; font-size: clamp(25px, 2.2vw, 32px); letter-spacing: -.025em; }
 .dashboard-page .page-heading p { font-size: 13px; }
-.dashboard-page .btn-primary {
-  background: linear-gradient(135deg, #ac5a7d, #8b435f); color: #fff;
-  box-shadow: 0 12px 24px rgba(119,49,80,.16); text-decoration: none;
-}
 .dashboard-page .btn { display: inline-flex; justify-content: center; align-items: center; }
-.dashboard-page .btn-primary:hover { box-shadow: 0 15px 26px rgba(119,49,80,.24); }
 .dashboard-page .stats-grid { gap: 20px; }
-.dashboard-page .stat-card, .dashboard-page .panel {
-  background: linear-gradient(130deg, rgba(255,255,255,.58), rgba(255,255,255,.24)) !important;
-  border: 1px solid rgba(255,255,255,.75) !important;
-  border-radius: 29px;
-  box-shadow: 0 18px 45px rgba(79,47,77,.09), inset 0 1px 0 rgba(255,255,255,.72);
-  backdrop-filter: blur(24px) saturate(145%);
-  -webkit-backdrop-filter: blur(24px) saturate(145%);
-}
 .dashboard-page .stat-card { min-height: 208px; padding: 25px 26px; }
-.dashboard-page .stat-card.blush {
-  background: linear-gradient(135deg, rgba(250,184,213,.57), rgba(255,225,238,.28)) !important;
-}
-.dashboard-page .stat-card:hover, .dashboard-page .panel:hover {
-  box-shadow: 0 22px 50px rgba(79,47,77,.15), inset 0 1px 0 rgba(255,255,255,.85);
-}
 .dashboard-page .stat-icon { border-radius: 15px; background: rgba(255,255,255,.45); border: 1px solid rgba(255,255,255,.46); }
 .dashboard-page .stat-icon.pink { background: rgba(244,181,210,.5); }
 .dashboard-page .stat-icon.sage { background: rgba(199,227,206,.56); }
 .dashboard-page .stat-icon.gold { background: rgba(251,229,179,.56); }
 .dashboard-page .stat-label { font-size: 12px; color: #7e6c71; }
-.dashboard-page .stat-number { font-size: clamp(30px, 3vw, 43px); letter-spacing: -.06em; font-weight: 700; }
+.dashboard-page .stat-number { font-size: clamp(28px, 2.5vw, 36px); letter-spacing: -.035em; font-weight: 700; }
 .dashboard-page .stat-foot { font-size: 10px; }
 .dashboard-page .dashboard-grid { gap: 20px; margin-top: 20px; grid-template-columns: minmax(0, 1.55fr) minmax(330px, 1fr); }
 .dashboard-page .panel { padding: 30px; }
@@ -2028,24 +1818,13 @@ textarea {
 .dashboard-page .table-btn { text-decoration: none; display: inline-block; }
 .dashboard-page footer { color: #95818a; }
 @media (max-width: 1160px) {
-  .dashboard-page .sidebar { flex-wrap: wrap; gap: 12px; }
-  .dashboard-page .brand { min-width: auto; }
-  .dashboard-page .navigation { flex: 1; }
   .dashboard-page .stats-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .dashboard-page .dashboard-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 680px) {
-  .dashboard-page .sidebar { padding: 15px; }
-  .dashboard-page .navigation { width: 100%; overflow-x: auto; flex-wrap: nowrap; }
-  .dashboard-page .nav-item { flex: 0 0 auto; }
-  .dashboard-page .topbar { padding: 0 16px; }
-  .dashboard-page .content { padding: 20px 15px 30px; }
   .dashboard-page .stats-grid { gap: 12px; }
   .dashboard-page .stat-card { padding: 18px; min-height: 175px; }
   .dashboard-page .stat-number { font-size: 27px; }
   .dashboard-page .panel { padding: 19px; }
   .dashboard-page .page-heading { flex-direction: column; align-items: stretch; }
-}
-@supports not (backdrop-filter: blur(1px)) {
-  .dashboard-page .stat-card, .dashboard-page .panel { background: rgba(255,255,255,.84) !important; }
 }

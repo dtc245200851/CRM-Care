@@ -1,42 +1,207 @@
-/* Shared horizontal navigation for ALL CRM pages. Load after style.css. */
-body.crm-unified { font-family: 'Be Vietnam Pro', sans-serif; color: #3e2723;
-  background: radial-gradient(ellipse 52% 38% at 7% 8%, rgba(244,184,215,.56),transparent 100%),
-  radial-gradient(ellipse 50% 48% at 93% 12%, rgba(177,198,244,.46),transparent 100%),
-  radial-gradient(ellipse 60% 43% at 51% 86%, rgba(226,204,251,.38),transparent 100%),
-  linear-gradient(125deg,#f6eee7,#f8eff5 47%,#eef0f9); background-attachment: fixed; }
-body.crm-unified .app { display: block; min-height: 100vh; }
-body.crm-unified .sidebar { width:100%;height:auto;min-height:84px;position:relative;inset:auto;
-  display:flex;flex-direction:row;align-items:center;gap:clamp(18px,4vw,70px);
-  padding:12px clamp(20px,3vw,54px);background:rgba(255,255,255,.58);
-  border-bottom:1px solid rgba(255,255,255,.76);box-shadow:0 6px 28px rgba(76,49,70,.06);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);color:#3e2723;z-index:5; }
-body.crm-unified .brand {margin:0;padding:0;min-width:235px;display:flex;gap:12px;align-items:center;
-  color:#3e2723;text-decoration:none; }
-body.crm-unified .brand strong {display:block;font-size:21px;line-height:1.3;letter-spacing:-.05em;}
-body.crm-unified .brand small {display:block;color:#887980;font-size:10px;}
-body.crm-unified .brand-icon {background:rgba(242,179,208,.54);box-shadow:none;}
-body.crm-unified .menu-label, body.crm-unified .sidebar-bottom {display:none;}
-body.crm-unified .navigation {display:flex;align-items:center;gap:clamp(4px,1.5vw,25px);flex-wrap:wrap;}
-body.crm-unified .nav-item {display:inline-flex;align-items:center;gap:5px;color:#625965;
-  font-size:12px;font-weight:500;border-radius:10px;padding:12px 11px;text-decoration:none;
-  background:transparent;box-shadow:none;transition:background .2s,color .2s;}
-body.crm-unified .nav-symbol {font-size:14px;color:#b66d8a;}
-body.crm-unified .nav-item:hover {background:rgba(255,255,255,.55);color:#3e2723;transform:none;}
-body.crm-unified .nav-item.active {color:#3e2723;font-weight:700;background:rgba(255,255,255,.65);
-  box-shadow:inset 0 -2px 0 #bd7190;}
-body.crm-unified .main {min-width:0;}
-body.crm-unified .topbar {height:60px;padding:0 clamp(20px,3vw,54px);background:transparent;border:0;}
-body.crm-unified .top-avatar {border-radius:50%;background:#edbcd9;}
-body.crm-unified .content {max-width:1680px;margin:0 auto;padding:25px clamp(20px,3vw,54px) 35px;}
-body.crm-unified .panel, body.crm-unified .interaction-page .interaction-panel,
-body.crm-unified .interaction-page .stat-box { background:linear-gradient(130deg,rgba(255,255,255,.59),rgba(255,255,255,.28));
-  border:1px solid rgba(255,255,255,.76);border-radius:27px;
-  box-shadow:0 16px 40px rgba(94,63,84,.09);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);}
-body.crm-unified .interaction-page .stat-box:nth-child(n) {background:linear-gradient(130deg,rgba(255,255,255,.62),rgba(244,201,214,.25));}
-body.crm-unified .interaction-page .timeline-card {background:rgba(255,255,255,.48);border:1px solid rgba(255,255,255,.74);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
-body.crm-unified .interaction-page .interaction-overlay {z-index:2000;}
-@media(max-width:1100px){body.crm-unified .sidebar{flex-wrap:wrap;gap:12px}body.crm-unified .brand{min-width:auto}}
-@media(max-width:720px){body.crm-unified .sidebar{padding:15px}body.crm-unified .navigation{width:100%;overflow-x:auto;flex-wrap:nowrap}
-body.crm-unified .nav-item{flex:0 0 auto;white-space:nowrap}body.crm-unified .topbar{padding:0 16px}
-body.crm-unified .content{padding:20px 15px 30px}}
+/* Shared horizontal navigation and page layout. Load after style.css. */
+body.crm-unified .app {
+  display: block;
+  min-height: 100vh;
+}
+
+body.crm-unified .sidebar {
+  position: sticky;
+  inset: auto;
+  top: 12px;
+  z-index: 200;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(16px, 3vw, 48px);
+  width: calc(100% - 72px);
+  height: auto;
+  min-height: 84px;
+  margin: 22px auto 12px;
+  padding: 12px clamp(18px, 2vw, 32px);
+  color: #3e2723;
+  background: rgba(250, 218, 233, .70);
+  border: 1px solid rgba(255, 255, 255, .85);
+  border-radius: 22px;
+  box-shadow: 0 12px 32px rgba(96, 61, 99, .12), inset 0 1px 0 rgba(255, 255, 255, .68);
+  backdrop-filter: blur(26px) saturate(125%);
+  -webkit-backdrop-filter: blur(26px) saturate(125%);
+}
+
+body.crm-unified .brand {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  min-width: 218px;
+  margin: 0;
+  padding: 0;
+  color: #3e2723;
+  text-decoration: none;
+}
+
+body.crm-unified .brand strong {
+  display: block;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -.025em;
+}
+
+body.crm-unified .brand small {
+  display: block;
+  color: #796572;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: .01em;
+}
+
+body.crm-unified .brand-icon {
+  background: rgba(242, 179, 208, .54);
+  box-shadow: none;
+}
+
+body.crm-unified .menu-label,
+body.crm-unified .sidebar-bottom {
+  display: none;
+}
+
+body.crm-unified .navigation {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+body.crm-unified .nav-item {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 11px 14px;
+  color: #66505c;
+  background: rgba(255, 248, 251, .36);
+  border: 1px solid rgba(255, 255, 255, .56);
+  border-radius: 20px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .40);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: 0;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+body.crm-unified .nav-symbol {
+  color: #a45c7b;
+  font-size: 14px;
+  line-height: 1;
+}
+
+body.crm-unified .nav-item:hover {
+  color: #3e2723;
+  background: rgba(245, 181, 207, .64);
+  box-shadow: 0 7px 16px rgba(116, 68, 97, .12);
+  transform: translateY(-2px);
+}
+
+body.crm-unified .nav-item.active {
+  color: #3e2723;
+  background: rgba(250, 206, 224, .82);
+  border-color: rgba(255, 255, 255, .94);
+  box-shadow: 0 7px 18px rgba(142, 71, 109, .13), inset 0 -3px 0 #b85b85;
+  font-weight: 700;
+}
+
+body.crm-unified .main {
+  min-width: 0;
+}
+
+body.crm-unified .topbar {
+  height: 60px;
+  padding: 0 clamp(20px, 3vw, 54px);
+  background: transparent;
+  border: 0;
+}
+
+body.crm-unified .top-avatar {
+  background: #edbcd9;
+  border-radius: 50%;
+}
+
+body.crm-unified .content {
+  max-width: 1680px;
+  margin: 0 auto;
+  padding: 28px clamp(20px, 3vw, 54px) 35px;
+}
+
+body.crm-unified #analytics {
+  scroll-margin-top: 120px;
+}
+
+@media (max-width: 1160px) {
+  body.crm-unified .sidebar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  body.crm-unified .brand {
+    min-width: auto;
+  }
+
+  body.crm-unified #analytics {
+    scroll-margin-top: 172px;
+  }
+}
+
+@media (max-width: 720px) {
+  body.crm-unified .sidebar {
+    top: 8px;
+    width: calc(100% - 24px);
+    margin: 12px auto 4px;
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  body.crm-unified .navigation {
+    flex: 1 1 100%;
+    flex-wrap: nowrap;
+    gap: 5px;
+    width: 100%;
+    overflow-x: auto;
+    padding: 4px 0 7px;
+    scroll-padding-inline: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(184, 91, 133, .36) transparent;
+  }
+
+  body.crm-unified .nav-item {
+    padding: 10px 12px;
+  }
+
+  body.crm-unified .nav-item:focus-visible {
+    outline-offset: -3px;
+  }
+
+  body.crm-unified .topbar {
+    padding: 0 16px;
+  }
+
+  body.crm-unified .content {
+    padding: 20px 15px 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.crm-unified .nav-item {
+    transition: none;
+  }
+
+  body.crm-unified .nav-item:hover {
+    transform: none;
+  }
+}
