@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F4C9D6">
+  <title>Báo cáo & Phân tích | CRM Care</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/navigation.css">
+  <link rel="stylesheet" href="/css/dreamy-glass.css">
+  <link rel="stylesheet" href="/css/reports.css">
+  <script src="/js/reports.js" defer></script>
+</head>
+<body class="crm-unified reports-page">
+<div class="app">
+  <%- include("partials/navigation", { activePage: "reports" }) %>
+  <main class="main">
+    <header class="topbar">
+      <div class="breadcrumb">Không gian làm việc <span>/ Báo cáo</span></div>
+      <div class="report-top-actions"><span class="report-live"><i aria-hidden="true"></i> Dữ liệu CRM</span><span class="top-avatar">AD</span></div>
+    </header>
+    <div class="content">
+      <section class="page-heading report-heading" aria-labelledby="reportTitle">
+        <div>
+          <div class="eyebrow">✦ GÓC NHÌN TỪ DỮ LIỆU</div>
+          <h1 id="reportTitle">Báo cáo & Phân tích <span>♡</span></h1>
+          <p>Khám phá dữ liệu, thấu hiểu khách hàng và nâng cao hiệu quả chăm sóc.</p>
+        </div>
+        <div class="report-filter">
+          <label for="reportPeriod">Khoảng thời gian</label>
+          <select id="reportPeriod">
+            <option value="7d">7 ngày gần đây</option>
+            <option value="30d" selected>30 ngày gần đây</option>
+            <option value="90d">90 ngày gần đây</option>
+            <option value="all">Toàn bộ thời gian</option>
+          </select>
+        </div>
+      </section>
+
+      <div class="report-meta"><p id="reportRange">Đang chuẩn bị báo cáo…</p><p id="reportStatus" role="status" aria-live="polite">Đang tải dữ liệu…</p></div>
+      <div class="report-error" id="reportError" role="alert" hidden>
+        <div><strong>Chưa thể tải báo cáo</strong><p id="reportErrorMessage">Vui lòng thử lại sau ít phút.</p></div>
+        <button class="btn btn-outline" id="reportRetry" type="button">Thử lại ↻</button>
+      </div>
+      <noscript><p class="report-error">Vui lòng bật JavaScript để xem biểu đồ và lọc báo cáo.</p></noscript>
+
+      <div id="reportData" class="reports-data" aria-busy="true">
+        <section class="stats-grid report-kpis" aria-label="Chỉ số chăm sóc khách hàng">
+          <article class="stat-card report-kpi">
+            <div class="report-kpi-top"><span class="stat-icon pink" aria-hidden="true">♙</span><span class="report-scope">Toàn bộ</span></div>
+            <h2>Tổng khách hàng</h2><strong class="report-number" id="totalCustomers">—</strong><p>Tất cả hồ sơ trong CRM</p>
+          </article>
+          <article class="stat-card blush report-kpi">
+            <div class="report-kpi-top"><span class="stat-icon white" aria-hidden="true">✧</span><span class="report-scope">Theo bộ lọc</span></div>
+            <h2>Khách hàng mới</h2><strong class="report-number" id="newCustomers">—</strong><p>Được tạo trong thời gian đã chọn</p>
+          </article>
+          <article class="stat-card report-kpi">
+            <div class="report-kpi-top"><span class="stat-icon sage" aria-hidden="true">✉</span><span class="report-scope">Theo bộ lọc</span></div>
+            <h2>Tổng lượt tương tác</h2><strong class="report-number" id="totalInteractions">—</strong><p>Theo ngày thực hiện tương tác</p>
+          </article>
+          <article class="stat-card report-kpi">
+            <div class="report-kpi-top"><span class="stat-icon gold" aria-hidden="true">♡</span><span class="report-scope">Toàn bộ</span></div>
+            <h2>Khách hàng đang chăm sóc</h2><strong class="report-number" id="activeCustomers">—</strong><p>Các hồ sơ có trạng thái đang chăm sóc</p>
+          </article>
+        </section>
+
+        <div class="report-chart-grid">
+          <section class="panel report-panel report-trend-panel" aria-labelledby="trendTitle">
+            <div class="panel-heading"><div><h2 id="trendTitle">Khách hàng mới theo thời gian</h2><p id="trendCaption">Số khách hàng được tạo trong khoảng thời gian đã chọn</p></div><span class="report-chart-key"><i aria-hidden="true"></i> Khách hàng mới</span></div>
+            <div id="customerTrend" class="report-trend-chart"><p class="report-placeholder">Đang tải biểu đồ…</p></div>
+          </section>
+          <section class="panel report-panel" aria-labelledby="statusTitle">
+            <div class="panel-heading"><div><h2 id="statusTitle">Trạng thái khách hàng</h2><p>Trạng thái hiện tại · Toàn bộ khách hàng</p></div><span class="report-decor" aria-hidden="true">♡</span></div>
+            <div class="report-donut-layout">
+              <div class="report-donut-wrap"><div id="customerDonut"></div><div class="report-donut-center"><strong id="donutTotal">—</strong><span>khách hàng</span></div></div>
+              <ul id="customerStatuses" class="report-status-legend"><li class="report-placeholder">Đang tải trạng thái…</li></ul>
+            </div>
+            <p class="report-chart-note" id="statusNote">Tỷ lệ được tính từ số khách hàng thực tế.</p>
+          </section>
+        </div>
+
+        <div class="report-lower-grid">
+          <section class="panel report-panel" aria-labelledby="interactionTitle">
+            <div class="panel-heading"><div><h2 id="interactionTitle">Các kênh tương tác</h2><p>Phân bố hoạt động trong thời gian đã chọn</p></div><span class="report-decor" aria-hidden="true">✧</span></div>
+            <div id="interactionTypes" class="report-type-chart"><p class="report-placeholder">Đang tải tương tác…</p></div>
+            <p id="interactionNote" class="report-chart-note"></p>
+          </section>
+          <section class="panel report-panel" aria-labelledby="activityTitle">
+            <div class="panel-heading"><div><h2 id="activityTitle">Hoạt động chăm sóc gần đây</h2><p>6 tương tác mới nhất trong thời gian đã chọn</p></div><a class="subtle-link report-all-link" href="/interactions">Xem tất cả →</a></div>
+            <ol id="recentInteractions" class="report-activity-list"><li class="report-placeholder">Đang tải hoạt động…</li></ol>
+          </section>
+        </div>
+      </div>
+      <footer>CRM Care © 2026 · Kết nối yêu thương, đồng hành phát triển ♡</footer>
+    </div>
+  </main>
+</div>
+<div class="report-tooltip" id="reportTooltip" role="tooltip" hidden></div>
+</body>
+</html>

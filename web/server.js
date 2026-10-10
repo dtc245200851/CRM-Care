@@ -4,6 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const pool = require('./db');
+const { isReportPeriod, getReportOverview } = require('./reports');
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -159,6 +160,31 @@ function validateContact(body) {
 // Dashboard
 app.get('/', (req, res) => {
   res.render('dashboard');
+});
+
+// Trang báo cáo dùng API riêng, vẫn mở được khi database tạm thời không khả dụng.
+app.get('/reports', (req, res) => {
+  res.render('reports');
+});
+
+app.get('/api/reports/overview', async (req, res) => {
+  const period = req.query.period ?? '30d';
+  res.set('Cache-Control', 'no-store');
+  if (!isReportPeriod(period)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Khoảng thời gian phải là 7d, 30d, 90d hoặc all.'
+    });
+  }
+  try {
+    res.json(await getReportOverview(pool, period));
+  } catch (error) {
+    console.error('Reports overview:', error.message);
+    res.status(503).json({
+      success: false,
+      message: 'Chưa thể tải dữ liệu báo cáo. Vui lòng thử lại.'
+    });
+  }
 });
 
 // Trang khách hàng
